@@ -45,15 +45,13 @@ export const Header = () => {
       <div className="bg-[#ffffff] mx-auto px-5 py-3 sm:py-5 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link
-              href="/"
-              className="text-xl sm:text-2xl flex space-x-2 font-bold text-gray-900"
-            >
-              <img className="size-23" src={logo} alt="" />
-              <img className="size-23" src={name} alt="" />
-            </Link>
-          </div>
+          <Link
+            href="/"
+            className="flex items-center gap-2 h-10 sm:h-12 md:h-14 lg:h-16"
+          >
+            <img className="h-full w-auto object-contain " src={logo} alt="" />
+            <img className="h-full w-auto object-contain" src={name} alt="" />
+          </Link>
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-5">
