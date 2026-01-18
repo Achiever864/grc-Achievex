@@ -44,7 +44,7 @@ export default function LearningHub(): React.ReactElement {
             {/* Left Content */}
             <div className="px-12 py-6 flex flex-col justify-center">
               <h1 className="text-3xl font-bold text-[#95111c] mb-6 leading-tight">
-                Welcome to Good Finance's E-Learning Hub
+                Welcome to Graduate Research Clinic's E-Learning Hub
               </h1>
 
               <p className="text-sm text-gray-700 mb-8 leading-relaxed">
@@ -83,7 +83,7 @@ export default function LearningHub(): React.ReactElement {
               Excellent content with links to further reading"
             </p>
             <p className="text-lg text-white/90 font-medium mt-2">
-              - Good Finance learner
+              - Graduate Research Clinic learner
             </p>
           </blockquote>
         </div>

@@ -90,8 +90,8 @@ export default function InvestorsHub(): React.ReactElement {
           </p>
           <p className="text-sm text-gray-900 mb-4">
             If you're an organisation that offers advisory services and you'd
-            like to enquire about listing with Good Finance, please check out
-            the{" "}
+            like to enquire about listing with Graduate Research Clinic, please
+            check out the{" "}
             <a href="#" className="text-blue-600 underline">
               For Investors terms
             </a>

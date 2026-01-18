@@ -44,7 +44,7 @@ export default function PartnerPortal(): React.ReactElement {
       type: "Blog",
       title: "Benny The Beaver: A Social Investment Story",
       description:
-        "Meet Benny, a determined beaver with one mission: to end homelessness in the forest... With the help of the Good Finance fairy, he's introduced to the world of repayable finance and suddenly, his dream of building a social enterprise may become reality!",
+        "Meet Benny, a determined beaver with one mission: to end homelessness in the forest... With the help of the Graduate Research Clinic fairy, he's introduced to the world of repayable finance and suddenly, his dream of building a social enterprise may become reality!",
     },
   ];
 
@@ -76,9 +76,9 @@ export default function PartnerPortal(): React.ReactElement {
               </h1>
 
               <p className="text-base text-gray-700 mb-4 leading-relaxed">
-                Good Finance is a collaborative project to help improve access
-                to information on social investment for charities and social
-                enterprises.
+                Graduate Research Clinic is a collaborative project to help
+                improve access to information on social investment for charities
+                and social enterprises.
               </p>
 
               <p className="text-base text-gray-700 mb-6 leading-relaxed">
@@ -133,12 +133,12 @@ export default function PartnerPortal(): React.ReactElement {
             <div className="grid md:grid-cols-2">
               <div className="p-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  Listing an investor profile on Good Finance
+                  Listing an investor profile on Graduate Research Clinic
                 </h3>
                 <p className="text-sm text-gray-700 mb-4 leading-relaxed">
-                  Is your organisation's profile listed on Good Finance? If you
-                  have a track record in social investment, we'd love to see
-                  your organisation listed in the{" "}
+                  Is your organisation's profile listed on Graduate Research
+                  Clinic? If you have a track record in social investment, we'd
+                  love to see your organisation listed in the{" "}
                   <a href="#" className="text-blue-600 underline">
                     Investor Directory
                   </a>
@@ -184,8 +184,8 @@ export default function PartnerPortal(): React.ReactElement {
                 </p>
               </div>
               <p className="text-sm text-gray-700 mb-4">
-                We're delighted to share the Good Finance investor data
-                dashboards with you.
+                We're delighted to share the Graduate Research Clinic investor
+                data dashboards with you.
               </p>
               <p className="text-sm text-gray-700 mb-4">
                 These data dashboard are an interactive way of exploring Good
@@ -258,9 +258,9 @@ export default function PartnerPortal(): React.ReactElement {
             Staying in touch
           </h3>
           <p className="text-base text-gray-700 mb-6 max-w-3xl mx-auto">
-            At Good Finance, we keep investors in the loop with any events,
-            opportunities, new tools / resources or focus areas that may be of
-            interest.
+            At Graduate Research Clinic, we keep investors in the loop with any
+            events, opportunities, new tools / resources or focus areas that may
+            be of interest.
           </p>
           <p className="text-base text-gray-700 mb-6">
             If you are not yet signed up to receive these quarterly updates,
@@ -280,7 +280,7 @@ export default function PartnerPortal(): React.ReactElement {
           <div className="grid md:grid-cols-2">
             <div className="p-12">
               <h3 className="text-3xl font-bold text-gray-900 mb-6">
-                Listing an Advisor profile on Good Finance
+                Listing an Advisor profile on Graduate Research Clinic
               </h3>
               <p className="text-base text-gray-700 mb-4">
                 <strong>
@@ -376,9 +376,9 @@ export default function PartnerPortal(): React.ReactElement {
             </p>
             <p className="text-sm text-gray-700 mb-4">
               Once you have completed this form, it will take some time for the
-              team here at Good Finance to review and approve your listing.
-              We're aiming to turn around profiles within two weeks, but this is
-              not guaranteed – please email{" "}
+              team here at Graduate Research Clinic to review and approve your
+              listing. We're aiming to turn around profiles within two weeks,
+              but this is not guaranteed – please email{" "}
               <a
                 href="mailto:aconstable@goodfinance.org.uk"
                 className="text-blue-600 underline"

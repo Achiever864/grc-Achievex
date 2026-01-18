@@ -338,9 +338,9 @@ const Hub = () => {
             </h2>
 
             <p className="text-base text-gray-700 mb-4 leading-relaxed">
-              Here at Good Finance, one of our key goals is to improve knowledge
-              on social investment, what it can be used for and the journey and
-              process it requires.
+              Here at Graduate Research Clinic, one of our key goals is to
+              improve knowledge on social investment, what it can be used for
+              and the journey and process it requires.
             </p>
 
             <p className="text-base text-gray-700 mb-4 leading-relaxed">

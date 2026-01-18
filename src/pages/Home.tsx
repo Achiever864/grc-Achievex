@@ -77,7 +77,7 @@ const Home = () => {
               {/* Content section */}
               <div className="flex flex-col justify-center p-8 md:p-12">
                 <h2 className="text-xl font-semibold text-[#95111c]">
-                  Good Finance Presents:
+                  Graduate Research Clinic Presents:
                 </h2>
 
                 <h1 className="mt-2 text-3xl font-bold text-[#95111c]">
@@ -112,7 +112,7 @@ const Home = () => {
               {/* Content section */}
               <div className="flex flex-col justify-center p-8 md:p-12">
                 <h2 className="text-xl font-semibold text-[#95111c]">
-                  Good Finance Presents:
+                  Graduate Research Clinic Presents:
                 </h2>
 
                 <h1 className="mt-2 text-3xl font-bold text-[#95111c]">
@@ -230,7 +230,7 @@ const Home = () => {
               {/* Content section */}
               <div className="flex flex-col justify-center p-8 md:p-12">
                 <h2 className="text-xl font-semibold text-[#95111c]">
-                  Good Finance Presents:
+                  Graduate Research Clinic Presents:
                 </h2>
 
                 <h1 className="mt-2 text-3xl font-bold text-[#95111c]">

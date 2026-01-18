@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useLocation, Link } from "wouter";
+import logo from "@/assets/logo/logo.png";
+import name from "@/assets/logo/name.png";
 import {
   Facebook,
   Instagram,
@@ -46,10 +48,10 @@ export const Header = () => {
           <div className="flex items-center">
             <Link
               href="/"
-              className="text-xl sm:text-2xl font-bold text-gray-900"
+              className="text-xl sm:text-2xl flex space-x-2 font-bold text-gray-900"
             >
-              {/* <img className="size-40" src={image} alt="" /> */}
-              <span>Logo</span>
+              <img className="size-23" src={logo} alt="" />
+              <img className="size-23" src={name} alt="" />
             </Link>
           </div>
 

@@ -93,7 +93,7 @@ export default function TestimonialCards(): React.ReactElement {
     {
       id: 5,
       quote:
-        "Exceptional support from the Good Finance team throughout. The course materials were comprehensive yet easy to digest.",
+        "Exceptional support from the Graduate Research Clinic team throughout. The course materials were comprehensive yet easy to digest.",
       author: "Lisa Martinez",
       role: "Funding Coordinator",
       organization: "Arts for All",
