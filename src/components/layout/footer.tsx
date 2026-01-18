@@ -8,20 +8,22 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1 */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Good Finance</h4>
+            <h4 className="text-lg font-semibold mb-4">
+              Graduate Research Clinic
+            </h4>
             <p className="text-sm leading-relaxed">
               Script,
               <br />
-              44 Featherstone Street,
+              University of Ibadan,
               <br />
-              London, EC1Y 8RN
+              Ibadan, Nigeria
             </p>
 
             <a
-              href="mailto:info@goodfinance.org.uk"
+              href="mailto:info@graduateresearchclinic.org"
               className="block mt-4 text-sm underline hover:text-yellow-400"
             >
-              info@goodfinance.org.uk
+              info@graduateresearchclinic.org
             </a>
           </div>
 
@@ -107,7 +109,8 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/20 text-center text-sm py-4">
-        © {new Date().getFullYear()} Good Finance. All rights reserved.
+        © {new Date().getFullYear()} Graduate Research Clinic. All rights
+        reserved.
       </div>
     </footer>
   );
