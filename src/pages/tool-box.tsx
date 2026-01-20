@@ -21,7 +21,6 @@ import {
   Lightbulb,
   ChevronRight,
   Play,
-  Home,
 } from "lucide-react";
 import Breadcrumb from "@/components/ui/breadcrumb";
 
