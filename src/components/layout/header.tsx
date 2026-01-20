@@ -63,10 +63,7 @@ export const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex justify-between items-center gap-4">
             {/* Logo */}
-            <Link
-              href="/"
-              className="flex items-center gap-2 flex-shrink-0 group"
-            >
+            <Link href="/" className="flex items-center gap-2 shrink-0 group">
               <img
                 className="h-12 sm:h-16 lg:h-20 w-auto object-contain transition-transform group-hover:scale-105"
                 src={logo}
@@ -174,7 +171,7 @@ export const Header = () => {
       </div>
 
       {/* Desktop Navigation */}
-      <nav className="hidden lg:block bg-gradient-to-r from-[#95111c] to-[#7a0e16] shadow-lg">
+      <nav className="hidden lg:block bg-linear-to-r from-[#95111c] to-[#7a0e16] shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center">
             {navLinks.map((link) => (
