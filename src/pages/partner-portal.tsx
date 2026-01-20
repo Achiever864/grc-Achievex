@@ -1,584 +1,466 @@
 import React, { useState } from "react";
-import { Plus } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import partner from "@/assets/images/partner.png";
-
-interface ContentCard {
-  id: number;
-  type: "Blog" | "Podcast" | "Video";
-  title: string;
-  description: string;
-  image?: string;
-}
+import {
+  Users,
+  Handshake,
+  Globe,
+  Target,
+  Briefcase,
+  GraduationCap,
+  Heart,
+  BookOpen,
+  CheckCircle,
+  ArrowRight,
+  Mail,
+  Phone,
+  Building2,
+  Calendar,
+  FileText,
+  Star,
+  ChevronRight,
+  Sparkles,
+} from "lucide-react";
+import Breadcrumb from "@/components/ui/breadcrumb";
 
 export default function PartnerPortal(): React.ReactElement {
-  const [, setExpandedSections] = useState<Record<string, boolean>>({});
-  const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [, setPartnerType] = useState<string | null>(null);
 
-  const toggleSection = (sectionId: string): void => {
-    setExpandedSections((prev) => ({
-      ...prev,
-      [sectionId]: !prev[sectionId],
-    }));
-  };
-
-  const contentCards: ContentCard[] = [
+  const partnershipTypes = [
     {
-      id: 1,
-      type: "Blog",
-      title: "Securing a pub's future: Lessons from The Punch Bowl Inn",
+      icon: GraduationCap,
+      title: "Academic Institutions",
       description:
-        "You're passionate about coming together as a community to save and run your village pub – but how do you find the funding to turn that vision into reality? Andrew Dubock, Communications Manager at Plunkett UK, shares how one North Yorkshire village made it happen.",
+        "Universities, research centers, and educational organizations",
+      benefits: [
+        "Joint research initiatives",
+        "Student exchange programs",
+        "Collaborative workshops and seminars",
+        "Shared resources and expertise",
+      ],
+      color: "from-blue-500 to-blue-600",
     },
     {
-      id: 2,
-      type: "Blog",
-      title:
-        "Backbone of Britain: What does the latest State of Social Enterprise report tell us about social investment?",
+      icon: Building2,
+      title: "Corporate Partners",
       description:
-        "Backbone of Britain – State of Social Enterprise 2025 is the latest research from Social Enterprise UK (SEUK) published with the support of Access: The Foundation for Social Investment and Better Society Capital.",
+        "Private sector organizations committed to research and development",
+      benefits: [
+        "Sponsored research projects",
+        "Internship opportunities for scholars",
+        "Funding for capacity building",
+        "Industry-academia knowledge exchange",
+      ],
+      color: "from-purple-500 to-purple-600",
     },
     {
-      id: 3,
-      type: "Blog",
-      title: "Benny The Beaver: A Social Investment Story",
-      description:
-        "Meet Benny, a determined beaver with one mission: to end homelessness in the forest... With the help of the Graduate Research Clinic fairy, he's introduced to the world of repayable finance and suddenly, his dream of building a social enterprise may become reality!",
+      icon: Heart,
+      title: "NGOs & Foundations",
+      description: "Non-profit organizations supporting African development",
+      benefits: [
+        "Grant funding opportunities",
+        "Collaborative advocacy initiatives",
+        "Community engagement programs",
+        "Policy research partnerships",
+      ],
+      color: "from-green-500 to-green-600",
+    },
+    {
+      icon: Globe,
+      title: "International Organizations",
+      description: "Global bodies fostering research and development in Africa",
+      benefits: [
+        "Cross-border research collaboration",
+        "Access to global networks",
+        "Capacity building programs",
+        "International conference participation",
+      ],
+      color: "from-yellow-500 to-yellow-600",
     },
   ];
 
-  const filteredContent =
-    activeFilter === "All"
-      ? contentCards
-      : contentCards.filter((card) => card.type === activeFilter);
+  const currentPartners = [
+    {
+      name: "African Research Universities Alliance",
+      type: "Academic Institution",
+      since: "2022",
+      focus: "Multi-disciplinary research",
+      logo: null,
+    },
+    {
+      name: "Gates Foundation Africa",
+      type: "Foundation",
+      since: "2023",
+      focus: "Health & Development",
+      logo: null,
+    },
+    {
+      name: "Pan-African University",
+      type: "Academic Institution",
+      since: "2021",
+      focus: "Graduate education",
+      logo: null,
+    },
+    {
+      name: "African Development Bank",
+      type: "International Organization",
+      since: "2023",
+      focus: "Economic research",
+      logo: null,
+    },
+  ];
+
+  const partnershipOpportunities = [
+    {
+      title: "Collaborative Research Grants",
+      description:
+        "Co-fund research projects addressing African development challenges",
+      icon: Target,
+      type: "Funding",
+    },
+    {
+      title: "Mentorship Programs",
+      description:
+        "Provide expert mentors for early career scholars and graduate students",
+      icon: Users,
+      type: "Capacity Building",
+    },
+    {
+      title: "Resource Sharing",
+      description:
+        "Share libraries, databases, laboratories, and digital tools",
+      icon: BookOpen,
+      type: "Infrastructure",
+    },
+    {
+      title: "Joint Publications",
+      description:
+        "Co-author research papers, policy briefs, and thought leadership pieces",
+      icon: FileText,
+      type: "Knowledge Production",
+    },
+    {
+      title: "Conference Sponsorship",
+      description:
+        "Support annual conferences, workshops, and training programs",
+      icon: Calendar,
+      type: "Events",
+    },
+    {
+      title: "Career Development",
+      description:
+        "Offer internships, job placements, and professional development opportunities",
+      icon: Briefcase,
+      type: "Employment",
+    },
+  ];
+
+  const impactMetrics = [
+    { number: "50+", label: "Active Partnerships", icon: Handshake },
+    { number: "2,500+", label: "Scholars Supported", icon: GraduationCap },
+    { number: "15", label: "Countries Reached", icon: Globe },
+    { number: "120+", label: "Research Projects", icon: BookOpen },
+  ];
+
+  const testimonials = [
+    {
+      quote:
+        "Our partnership with The Graduate Research Clinic has opened doors for our researchers to collaborate across borders and disciplines. The impact has been transformative.",
+      author: "Dr. Amina Okoro",
+      position: "Director of Research",
+      organization: "East African University Consortium",
+    },
+    {
+      quote:
+        "Supporting early career scholars through this platform aligns perfectly with our mission. The mentorship framework is excellent and yields measurable results.",
+      author: "Prof. Kwame Mensah",
+      position: "Program Director",
+      organization: "African Scholars Foundation",
+    },
+  ];
 
   return (
-    <div className="font-montserrat">
+    <div className="bg-linear-to-b from-purple-50 to-white min-h-screen font-montserrat">
       <Header />
-      {/* Hero Section with Accordion */}
-      <div className="max-w-7xl mx-auto py-12 px-4">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
-          <div className="grid md:grid-cols-2">
-            {/* Left - Image */}
-            <div className="w-full ">
-              <img
-                src={partner}
-                alt="Person Learning"
-                className="max-w-full max-h-full object-cover"
-              />
+
+      {/* Hero Section */}
+      <section className="relative py-16 lg:py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-linear-to-br from-[#95111c] via-[#7a0e16] to-[#95111c]">
+          <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4zIi8+PC9nPjwvc3ZnPg==')]"></div>
+        </div>
+        {/* Breadcrumb Navigation */}
+        <div className="absolute top-6 left-4 sm:left-6 lg:left-8 z-20">
+          <Breadcrumb current="Partner Portal" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 bg-yellow-400 px-6 py-2 rounded-full mb-6">
+              <Handshake className="w-5 h-5 text-gray-900" />
+              <span className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                Partner Portal
+              </span>
             </div>
 
-            {/* Right - Content */}
-            <div className="p-12">
-              <h1 className="text-4xl font-bold text-[#95111c] mb-6">
-                Working in partnership
-              </h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+              Collaborate. Empower. Transform.
+            </h1>
 
-              <p className="text-base text-gray-700 mb-4 leading-relaxed">
-                Graduate Research Clinic is a collaborative project to help
-                improve access to information on social investment for charities
-                and social enterprises.
-              </p>
+            <p className="text-xl text-white/90 mb-10 leading-relaxed">
+              Join us in building Africa's future through research excellence,
+              knowledge sharing, and sustainable partnerships that empower the
+              next generation of African scholars.
+            </p>
 
-              <p className="text-base text-gray-700 mb-6 leading-relaxed">
-                We take a 'user-led' approach and work in collaboration with a
-                range of key partners and stakeholders to ensure we are reaching
-                social purpose organisations across the UK. If your organisation
-                wants to support members or users in your network with deepening
-                their understanding of social investment, or you think you could
-                support us in furthering our mission, we'd love to hear from
-                you.
-              </p>
-
-              <div className="space-y-3 mb-6">
-                {[
-                  "For Social Investors",
-                  "For Advisors",
-                  "For Infrastructure",
-                  "For everyone",
-                ].map((item) => (
-                  <div key={item} className="border-b border-gray-200 pb-3">
-                    <button
-                      onClick={() => toggleSection(item)}
-                      className="w-full flex items-center justify-between text-left hover:text-pink-700 transition-colors"
-                    >
-                      <span className="text-base font-semibold text-gray-800">
-                        {item}
-                      </span>
-                      <Plus className="w-5 h-5 text-gray-600" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <button className="bg-pink-700 hover:bg-pink-800 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
-                View partnership opportunities
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2 shadow-lg hover:scale-105">
+                Become a Partner
+                <ArrowRight className="w-5 h-5" />
+              </button>
+              <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30">
+                Download Partnership Guide
               </button>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* For Social Investors Section */}
-        <div className="bg-[#95111c] py-8 text-center rounded-t-2xl">
-          <h2 className="text-4xl font-bold text-white">
-            For Social Investors
-          </h2>
-        </div>
-
-        {/* Investor Cards Grid */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* Listing Profile Card */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="grid md:grid-cols-2">
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  Listing an investor profile on Graduate Research Clinic
-                </h3>
-                <p className="text-sm text-gray-700 mb-4 leading-relaxed">
-                  Is your organisation's profile listed on Graduate Research
-                  Clinic? If you have a track record in social investment, we'd
-                  love to see your organisation listed in the{" "}
-                  <a href="#" className="text-blue-600 underline">
-                    Investor Directory
-                  </a>
-                  .
-                </p>
-                <p className="text-sm text-gray-700 mb-4">
-                  If you're already listed in the Investor Directory, you can{" "}
-                  <a href="#" className="text-blue-600 underline">
-                    log in
-                  </a>{" "}
-                  to ensure your profile is up to date.
-                </p>
-                <p className="text-sm text-gray-700 mb-6">
-                  If you have any questions or would like to learn more, please
-                  contact Annie Constable (Digital Content Manager) at{" "}
-                  <a
-                    href="mailto:aconstable@goodfinance.org.uk"
-                    className="text-blue-600 underline"
-                  >
-                    aconstable@goodfinance.org.uk
-                  </a>
-                  .
-                </p>
-                <button className="bg-pink-700 hover:bg-pink-800 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                  Register your interest
-                </button>
+      {/* Impact Metrics */}
+      <section className="bg-white border-y border-gray-200 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {impactMetrics.map((metric, idx) => (
+              <div key={idx} className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
+                  <metric.icon className="w-8 h-8 text-[#95111c]" />
+                </div>
+                <div className="text-3xl font-bold text-[#95111c] mb-1">
+                  {metric.number}
+                </div>
+                <div className="text-sm text-gray-600">{metric.label}</div>
               </div>
-              <div className="bg-gray-200 min-h-[300px] flex items-center justify-center">
-                <p className="text-gray-500 text-sm">Business meeting image</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Investor Data Dashboard & Case Study */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Investor Data Dashboard
-              </h3>
-              <div className="bg-gray-200 h-48 rounded-lg mb-4 flex items-center justify-center">
-                <p className="text-gray-500 text-sm">
-                  Team reviewing data image
-                </p>
-              </div>
-              <p className="text-sm text-gray-700 mb-4">
-                We're delighted to share the Graduate Research Clinic investor
-                data dashboards with you.
-              </p>
-              <p className="text-sm text-gray-700 mb-4">
-                These data dashboard are an interactive way of exploring Good
-                Finance data.
-              </p>
-              <button className="bg-[#95111c] hover:bg-[#95111c] text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                Explore the Data Dashboard
-              </button>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Submit a case study
-              </h3>
-              <div className="bg-gray-200 h-48 rounded-lg mb-4 flex items-center justify-center">
-                <p className="text-gray-500 text-sm">Handshake image</p>
-              </div>
-              <p className="text-sm text-gray-700 mb-4">
-                Have you got a brilliant example of social investment in action
-                from your portfolio? We're always looking for new{" "}
-                <a href="#" className="text-blue-600 underline">
-                  case studies
-                </a>{" "}
-                and can link them directly to your investor profile.
-              </p>
-              <button className="bg-[#95111c] hover:bg-[#95111c] text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                Submit a case study
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Keeping Profile Updated */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-          <div className="grid md:grid-cols-2">
-            <div className="p-12">
-              <h3 className="text-3xl font-bold text-gray-900 mb-6">
-                Keeping your profile up to date
-              </h3>
-              <p className="text-base text-gray-700 mb-4">
-                It's your responsibility to keep your profile up to date.
-              </p>
-              <p className="text-base text-gray-700 mb-4">
-                Use the button below to log-in to...
-              </p>
-              <ul className="list-disc pl-6 mb-6 space-y-2 text-sm text-gray-700">
-                <li>Update contact information</li>
-                <li>Update logos</li>
-                <li>Minor amends to wording to reflect any recent changes</li>
-                <li>Publish / unpublish funds as per availability</li>
-                <li>Add a link to your latest Impact Report</li>
-                <li>
-                  Change investment criteria e.g. location, amount, investment
-                  type and social impact area
-                </li>
-              </ul>
-              <button className="bg-pink-700 hover:bg-pink-800 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
-                Log-in
-              </button>
-            </div>
-            <div className="bg-amber-100 min-h-[400px] flex items-center justify-center">
-              <p className="text-gray-600 text-sm">Person at laptop image</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Newsletter Section */}
-        <div className="bg-white rounded-xl shadow-lg p-8 text-center mb-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
-            Staying in touch
-          </h3>
-          <p className="text-base text-gray-700 mb-6 max-w-3xl mx-auto">
-            At Graduate Research Clinic, we keep investors in the loop with any
-            events, opportunities, new tools / resources or focus areas that may
-            be of interest.
-          </p>
-          <p className="text-base text-gray-700 mb-6">
-            If you are not yet signed up to receive these quarterly updates,
-            please sign up to our investor newsletter today!
-          </p>
-          <button className="bg-pink-700 hover:bg-pink-800 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
-            Sign up to the investor newsletter
-          </button>
-        </div>
-
-        {/* For Advisors Section */}
-        <div className="bg-[#95111c] py-8 text-center rounded-t-2xl">
-          <h2 className="text-4xl font-bold text-white">For Advisors</h2>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-          <div className="grid md:grid-cols-2">
-            <div className="p-12">
-              <h3 className="text-3xl font-bold text-gray-900 mb-6">
-                Listing an Advisor profile on Graduate Research Clinic
-              </h3>
-              <p className="text-base text-gray-700 mb-4">
-                <strong>
-                  If you have a track record in advisory services for charities,
-                  social enterprises and community organisations, we'd love to
-                  see your organisation listed in the{" "}
-                  <a href="#" className="text-blue-600 underline">
-                    Advisor Directory
-                  </a>
-                  .
-                </strong>
-              </p>
-              <p className="text-sm text-gray-700 mb-4">
-                Advisors and advisory organisations are critical in supporting
-                charities and social enterprises on their social investment
-                journey; whether that be with financial modelling and business
-                planning, or leadership training and impact management.
-              </p>
-              <p className="text-sm text-gray-700 mb-6">
-                If you're already listed in the Advisor Directory, you can{" "}
-                <a href="#" className="text-blue-600 underline">
-                  log in
-                </a>{" "}
-                to ensure your profile is up to date.
-              </p>
-              <div className="flex gap-4">
-                <button className="bg-pink-700 hover:bg-pink-800 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                  Register your interest
-                </button>
-                <button className="bg-pink-700 hover:bg-pink-800 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-                  Log-in to my advisor profile
-                </button>
-              </div>
-            </div>
-            <div className="bg-amber-100 min-h-[400px] flex items-center justify-center">
-              <p className="text-gray-600 text-sm">Advisor at laptop image</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Eligibility Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
-              Who is eligible to list via the Advisor Directory?
-            </h3>
-            <div className="bg-gray-200 h-48 rounded-lg mb-6 flex items-center justify-center">
-              <p className="text-gray-500 text-sm">Two people meeting image</p>
-            </div>
-            <p className="text-sm text-gray-700 mb-4">
-              Great question! If you're an organisation or individual offering
-              advisory services to charities, social enterprises and community
-              organisations, you might be eligible for an organisation via the
-              directory.
-            </p>
-            <p className="text-sm text-gray-700 mb-4">
-              In a nutshell, you must...
-            </p>
-            <ul className="list-disc pl-6 mb-6 space-y-2 text-sm text-gray-700">
-              <li>Have professional indemnity insurance</li>
-              <li>
-                Have supported a social purpose organisation in the last 6
-                months
-              </li>
-              <li>
-                Provide dedicated support to charities, social enterprises or
-                community organisations
-              </li>
-              <li>Have more than one year of experience</li>
-            </ul>
-            <button className="bg-[#95111c] hover:bg-[#95111c] text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-              Read the listing criteria
-            </button>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
-              I'm an Advisor / Advisory Service – where do I sign up?
-            </h3>
-            <div className="bg-gray-200 h-48 rounded-lg mb-6 flex items-center justify-center">
-              <p className="text-gray-500 text-sm">
-                Business conversation image
-              </p>
-            </div>
-            <p className="text-sm text-gray-700 mb-4">
-              The form is split out into five key sections and should take no
-              longer than 10-minutes to complete. It might be helpful to check
-              out the{" "}
-              <a href="#" className="text-blue-600 underline">
-                listing criteria guidance document
-              </a>{" "}
-              ahead of going through this process.
-            </p>
-            <p className="text-sm text-gray-700 mb-4">
-              Once you have completed this form, it will take some time for the
-              team here at Graduate Research Clinic to review and approve your
-              listing. We're aiming to turn around profiles within two weeks,
-              but this is not guaranteed – please email{" "}
-              <a
-                href="mailto:aconstable@goodfinance.org.uk"
-                className="text-blue-600 underline"
-              >
-                aconstable@goodfinance.org.uk
-              </a>{" "}
-              if you'd like an update on your profile.
-            </p>
-            <button className="bg-[#95111c] hover:bg-[#95111c] text-white font-semibold py-2 px-6 rounded-lg transition-colors">
-              Sign up to list as an advisor
-            </button>
-          </div>
-        </div>
-
-        {/* Boards and Trustees Section */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-          <div className="grid md:grid-cols-2">
-            <div className="p-12">
-              <h2 className="text-3xl font-bold text-[#95111c] mb-6">
-                Social investment for boards and trustees
-              </h2>
-              <p className="text-sm text-gray-700 mb-4">
-                This information hub offers practical support and guidance to
-                help board members of charities and social enterprises
-                understand the opportunities and risks of social investment.
-              </p>
-              <p className="text-sm text-gray-700">
-                Some of this content has been repurposed from content originally
-                developed for Get Informed: Social Investment for Boards with
-                the help of Better Society Capital in partnership with{" "}
-                <a href="#" className="text-blue-600 underline">
-                  Charity Commission
-                </a>
-                ,{" "}
-                <a href="#" className="text-blue-600 underline">
-                  Reach Volunteering
-                </a>
-                ,{" "}
-                <a href="#" className="text-blue-600 underline">
-                  Cass Business School
-                </a>
-                ,{" "}
-                <a href="#" className="text-blue-600 underline">
-                  Trustees Unlimited
-                </a>
-                ,{" "}
-                <a href="#" className="text-blue-600 underline">
-                  Association of Chairs
-                </a>{" "}
-                and{" "}
-                <a href="#" className="text-blue-600 underline">
-                  The Honorary Treasurers Forum
-                </a>
-                .
-              </p>
-            </div>
-            <div className="bg-gray-200 min-h-[400px] flex items-center justify-center">
-              <p className="text-gray-500 text-sm">Board meeting image</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Three Resource Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="bg-yellow-400 h-48 rounded-lg mb-4 flex items-center justify-center">
-              <p className="text-gray-700 text-sm">Network illustration</p>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              Hear from peers
-            </h3>
-            <p className="text-sm text-gray-700 mb-4">
-              Watch short videos featuring trustees and directors on what social
-              investment enabled them to do and what the biggest challenges
-              were.
-            </p>
-            <button className="bg-[#95111c] hover:bg-[#95111c] text-white font-semibold py-2 px-6 rounded-lg transition-colors w-full">
-              Peer videos
-            </button>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="bg-gray-200 h-48 rounded-lg mb-4 flex items-center justify-center">
-              <p className="text-gray-500 text-sm">Two people talking image</p>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Stories</h3>
-            <p className="text-sm text-gray-700 mb-4">
-              Read individual stories from trustees and directors about their
-              experience of taking on social investment.
-            </p>
-            <button className="bg-[#95111c] hover:bg-[#95111c] text-white font-semibold py-2 px-6 rounded-lg transition-colors w-full">
-              Read trustee stories
-            </button>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="bg-linear-to-br from-pink-400 to-purple-400 h-48 rounded-lg mb-4 flex items-center justify-center">
-              <p className="text-white text-sm">Colorful people illustration</p>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">
-              More resources
-            </h3>
-            <p className="text-sm text-gray-700 mb-4">
-              Additional resources for board members and trustees wanting to
-              navigate finances and decision making for their organisation.
-            </p>
-            <button className="bg-[#95111c] hover:bg-[#95111c] text-white font-semibold py-2 px-6 rounded-lg transition-colors w-full">
-              Access further resources
-            </button>
-          </div>
-        </div>
-
-        {/* Testimonial */}
-        <div className="bg-[#95111c] rounded-xl shadow-xl p-12 text-center text-white mb-8">
-          <blockquote className="text-xl font-medium max-w-4xl mx-auto">
-            "Social investment has provided us with the working capital needed
-            to grow and meet the needs of the charity. Boards need to better
-            understand the various options available and how social investment
-            can support their charitable mission."
-          </blockquote>
-          <p className="text-lg mt-4 font-semibold">
-            Azlina Bulmer, Chair, The Works
-          </p>
-        </div>
-
-        {/* Podcasts, Videos & Blogs Section */}
-        <div className="bg-[#95111c] py-8 text-center rounded-t-2xl">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Podcasts, Videos & Blogs
-          </h2>
-          <div className="flex justify-center gap-4 flex-wrap">
-            {["All", "Blog", "Podcast", "Video"].map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-6 py-2 rounded-full font-semibold transition-colors ${
-                  activeFilter === filter
-                    ? filter === "Blog"
-                      ? "bg-pink-600 text-white"
-                      : filter === "Podcast"
-                      ? "bg-[#95111c] text-white"
-                      : filter === "Video"
-                      ? "bg-teal-600 text-white"
-                      : "bg-white text-gray-900"
-                    : "bg-white/20 text-white hover:bg-white/30"
-                }`}
-              >
-                {filter}
-              </button>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Content Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {filteredContent.map((card) => (
-            <div
-              key={card.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden"
-            >
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Partnership Types */}
+        <section className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-[#95111c] mb-4">
+              Partnership Opportunities
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              We welcome diverse partnerships that align with our mission to
+              empower African scholars and advance research excellence
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {partnershipTypes.map((type, idx) => (
               <div
-                className={`py-2 text-center text-white font-semibold text-sm ${
-                  card.type === "Blog"
-                    ? "bg-pink-600"
-                    : card.type === "Podcast"
-                    ? "bg-[#95111c]"
-                    : "bg-teal-600"
-                }`}
+                key={idx}
+                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all p-8 border border-gray-100 group cursor-pointer"
+                onClick={() => setPartnerType(type.title)}
               >
-                {card.type}
-              </div>
-              <div className="bg-gray-200 h-48 flex items-center justify-center">
-                <p className="text-gray-500 text-sm">Image placeholder</p>
-              </div>
-              <div className="p-6">
-                <h4 className="text-lg font-bold text-gray-900 mb-3">
-                  {card.title}
-                </h4>
-                <p className="text-sm text-gray-700 mb-4">{card.description}</p>
-                <button className="bg-pink-700 hover:bg-pink-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm">
-                  Read more
+                <div
+                  className={`inline-flex p-4 bg-linear-to-br ${type.color} rounded-xl mb-6 group-hover:scale-110 transition-transform`}
+                >
+                  <type.icon className="w-8 h-8 text-white" />
+                </div>
+
+                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-[#95111c] transition-colors">
+                  {type.title}
+                </h3>
+
+                <p className="text-gray-600 mb-6">{type.description}</p>
+
+                <div className="space-y-3">
+                  {type.benefits.map((benefit, bidx) => (
+                    <div key={bidx} className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                      <span className="text-sm text-gray-700">{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <button className="mt-6 w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
+                  Learn More
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </section>
 
-        {/* View All Buttons */}
-        <div className="flex justify-center gap-4 mb-8">
-          <button className="bg-pink-700 hover:bg-pink-800 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
-            See all Blogs
-          </button>
-          <button className="bg-[#95111c] hover:bg-[#95111c] text-white font-semibold py-3 px-8 rounded-lg transition-colors">
-            See all Podcasts
-          </button>
-          <button className="bg-teal-700 hover:bg-teal-800 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
-            See all Videos
-          </button>
-        </div>
+        {/* Collaboration Areas */}
+        <section className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-[#95111c] mb-4">
+              Ways to Collaborate
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Multiple pathways to support our mission and create meaningful
+              impact
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {partnershipOpportunities.map((opp, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all p-6 border border-gray-100 group"
+              >
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="p-3 bg-purple-100 rounded-lg group-hover:bg-[#95111c] transition-colors">
+                    <opp.icon className="w-6 h-6 text-[#95111c] group-hover:text-white transition-colors" />
+                  </div>
+                  <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+                    {opp.type}
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#95111c] transition-colors">
+                  {opp.title}
+                </h3>
+
+                <p className="text-sm text-gray-600">{opp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Current Partners */}
+        <section className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-[#95111c] mb-4">
+              Our Valued Partners
+            </h2>
+            <p className="text-xl text-gray-600">
+              Organizations making a difference in African research and
+              education
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {currentPartners.map((partner, idx) => (
+              <div
+                key={idx}
+                className="bg-linear-to-br from-white to-purple-50 rounded-xl shadow-md hover:shadow-xl transition-all p-6 border border-purple-100 text-center"
+              >
+                <div className="w-20 h-20 bg-[#95111c] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Building2 className="w-10 h-10 text-white" />
+                </div>
+
+                <h3 className="font-bold text-gray-900 mb-2">{partner.name}</h3>
+                <p className="text-sm text-gray-600 mb-1">{partner.type}</p>
+                <p className="text-xs text-purple-600 mb-3">
+                  Partner since {partner.since}
+                </p>
+
+                <div className="pt-3 border-t border-purple-200">
+                  <p className="text-xs text-gray-700">
+                    <strong>Focus:</strong> {partner.focus}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-[#95111c] mb-4">
+              Partner Testimonials
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-xl shadow-lg p-8 border border-gray-100"
+              >
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-5 h-5 text-yellow-500 fill-yellow-500"
+                    />
+                  ))}
+                </div>
+
+                <p className="text-gray-700 italic mb-6 leading-relaxed">
+                  "{testimonial.quote}"
+                </p>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-linear-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                    {testimonial.author
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">
+                      {testimonial.author}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {testimonial.position}
+                    </p>
+                    <p className="text-sm text-purple-600">
+                      {testimonial.organization}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="bg-linear-to-br from-[#95111c] to-[#7a0e16] rounded-2xl shadow-2xl p-12 text-white text-center">
+          <Sparkles className="w-16 h-16 mx-auto mb-6 text-yellow-400" />
+
+          <h2 className="text-4xl font-bold mb-4">Ready to Make an Impact?</h2>
+
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Join our growing network of partners committed to advancing African
+            research excellence and empowering the next generation of scholars.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105">
+              <Mail className="w-5 h-5" />
+              Get in Touch
+            </button>
+            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
+              <FileText className="w-5 h-5" />
+              Partnership Proposal Template
+            </button>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-white/20">
+            <h3 className="text-lg font-semibold mb-4">
+              Contact Our Partnerships Team
+            </h3>
+            <div className="flex flex-wrap gap-6 justify-center text-sm">
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                <span>partnerships@graduateresearchclinic.org</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4" />
+                <span>+234 XXX XXX XXXX</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
+
       <Footer />
     </div>
   );

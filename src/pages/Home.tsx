@@ -24,11 +24,21 @@ import {
   Download,
   ArrowRight,
 } from "lucide-react";
+import { useLocation } from "wouter";
 
 const Home = () => {
+  const [, setLocation] = useLocation();
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
   const [selectedDonation, setSelectedDonation] = useState<number | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+
+  const openAboutPage = () => {
+    setLocation("/about");
+  };
+
+  const openPrograms = () => {
+    setLocation("/learning-hub");
+  };
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
@@ -192,6 +202,7 @@ const Home = () => {
                   <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button
+                  onClick={openPrograms}
                   size="lg"
                   variant="outline"
                   className="border-2 border-white text-white hover:bg-white hover:text-[#95111c] font-semibold px-8 py-6 text-lg"
@@ -371,7 +382,10 @@ const Home = () => {
               Join us in building the future of African scholarship
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-8 py-3 rounded-lg transition-all hover:shadow-lg group">
+              <button
+                onClick={openAboutPage}
+                className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-8 py-3 rounded-lg transition-all hover:shadow-lg group"
+              >
                 Learn More About Us
                 <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>

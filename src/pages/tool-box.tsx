@@ -21,7 +21,9 @@ import {
   Lightbulb,
   ChevronRight,
   Play,
+  Home,
 } from "lucide-react";
+import Breadcrumb from "@/components/ui/breadcrumb";
 
 export default function Toolbox(): React.ReactElement {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -174,6 +176,11 @@ export default function Toolbox(): React.ReactElement {
       <section className="relative py-16 lg:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-[#95111c] via-[#7a0e16] to-[#95111c]">
           <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4zIi8+PC9nPjwvc3ZnPg==')]"></div>
+        </div>
+
+        {/* Breadcrumb Navigation */}
+        <div className="absolute top-6 left-4 sm:left-6 lg:left-8 z-20">
+          <Breadcrumb current="Toolbox" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

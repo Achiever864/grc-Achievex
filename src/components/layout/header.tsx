@@ -20,7 +20,7 @@ export const Header = () => {
   const navLinks = [
     { href: "/knowledge-hub", label: "Knowledge Hub" },
     { href: "/toolbox", label: "Tool Box" },
-    { href: "/support", label: "Find Support" },
+    { href: "/find-support", label: "Find Support" },
     { href: "/voices", label: "Voices" },
     { href: "/learning-hub", label: "Learning Hub" },
     { href: "/partner-portal", label: "Partner Portal" },

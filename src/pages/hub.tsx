@@ -21,6 +21,7 @@ import {
   X,
 } from "lucide-react";
 import library from "@/assets/images/library.jpg";
+import Breadcrumb from "@/components/ui/breadcrumb";
 
 export default function KnowledgeHub(): React.ReactElement {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -282,6 +283,10 @@ export default function KnowledgeHub(): React.ReactElement {
             className="w-full h-full object-cover opacity-20"
           />
           <div className="absolute inset-0 bg-linear-to-r from-[#95111c]/90 to-[#95111c]/70"></div>
+        </div>
+        {/* Breadcrumb Navigation */}
+        <div className="absolute top-6 left-4 sm:left-6 lg:left-8 z-20">
+          <Breadcrumb current="Knowledge Hub" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
