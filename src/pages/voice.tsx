@@ -525,7 +525,7 @@ export default function Voices() {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all flex items-center gap-2 ${
+                className={`cursor-pointerpx-6 py-3 rounded-full font-medium transition-all flex items-center gap-2 ${
                   selectedCategory === cat.id
                     ? "bg-[#95111c] text-white shadow-lg scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -543,7 +543,7 @@ export default function Voices() {
               <button
                 key={region.id}
                 onClick={() => setSelectedRegion(region.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   selectedRegion === region.id
                     ? "bg-purple-600 text-white"
                     : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
@@ -615,7 +615,7 @@ export default function Voices() {
                         stream.status === "live"
                           ? "bg-red-500 hover:bg-red-600"
                           : "bg-[#95111c] hover:bg-[#7a0e16]"
-                      } text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2`}
+                      } text-white cursor-pointer font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2`}
                     >
                       {stream.status === "live" ? (
                         <>
@@ -696,18 +696,18 @@ export default function Voices() {
                         <div className="flex items-center gap-3">
                           <button
                             onClick={() => handlePlayPodcast(podcast)}
-                            className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-all flex items-center gap-2"
+                            className="cursor-pointer bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-all flex items-center gap-2"
                           >
                             <Play className="w-5 h-5" />
                             Listen Now
                           </button>
-                          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                          <button className="cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-colors">
                             <Bookmark className="w-5 h-5 text-gray-600" />
                           </button>
-                          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                          <button className="cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-colors">
                             <Share2 className="w-5 h-5 text-gray-600" />
                           </button>
-                          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                          <button className="cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-colors">
                             <Download className="w-5 h-5 text-gray-600" />
                           </button>
                         </div>
@@ -778,7 +778,7 @@ export default function Voices() {
                           <Clock className="w-4 h-4" />
                           {video.duration}
                         </span>
-                        <button className="text-[#95111c] hover:text-[#7a0e16] font-semibold text-sm flex items-center gap-1">
+                        <button className="cursor-pointer text-[#95111c] hover:text-[#7a0e16] font-semibold text-sm flex items-center gap-1">
                           Watch Now
                           <ExternalLink className="w-4 h-4" />
                         </button>
@@ -825,7 +825,7 @@ export default function Voices() {
 
                       <button
                         onClick={() => setShowPlaylist(playlist.id)}
-                        className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-2"
+                        className="cursor-pointer w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-2"
                       >
                         <Play className="w-4 h-4" />
                         View Playlist
@@ -844,7 +844,7 @@ export default function Voices() {
                     </h3>
                     <button
                       onClick={() => setShowPlaylist(false)}
-                      className="text-gray-500 hover:text-gray-700"
+                      className="cursor-pointer text-gray-500 hover:text-gray-700"
                     >
                       <X className="w-6 h-6" />
                     </button>
@@ -873,7 +873,7 @@ export default function Voices() {
                               </span>
                             </div>
                           </div>
-                          <button className="p-2 hover:bg-gray-100 rounded-lg">
+                          <button className="cursor-pointer  p-2 hover:bg-gray-100 rounded-lg">
                             <Bookmark className="w-5 h-5 text-gray-600" />
                           </button>
                         </div>
@@ -941,7 +941,7 @@ export default function Voices() {
                           </span>
                         </div>
 
-                        <button className="text-[#95111c] hover:text-[#7a0e16] font-semibold flex items-center gap-2">
+                        <button className="cursor-pointer  text-[#95111c] hover:text-[#7a0e16] font-semibold flex items-center gap-2">
                           Read More
                           <ChevronRight className="w-5 h-5" />
                         </button>
@@ -1002,7 +1002,7 @@ export default function Voices() {
                         </div>
                       </div>
 
-                      <button className="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg transition-colors">
+                      <button className="ml-4 cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg transition-colors">
                         <Download className="w-5 h-5" />
                       </button>
                     </div>
@@ -1089,7 +1089,7 @@ export default function Voices() {
 
               <button
                 onClick={() => setShowNewsletterModal(true)}
-                className="w-full bg-white text-[#95111c] font-bold py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors"
+                className="cursor-pointer w-full bg-white text-[#95111c] font-bold py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 Subscribe Now
               </button>
@@ -1114,7 +1114,7 @@ export default function Voices() {
                 ].map((social, idx) => (
                   <button
                     key={idx}
-                    className={`w-full ${social.color} hover:opacity-90 text-white font-semibold py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2`}
+                    className={`cursor-pointer w-full ${social.color} hover:opacity-90 text-white font-semibold py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2`}
                   >
                     <social.icon className="w-5 h-5" />
                     Follow on {social.name}
@@ -1152,7 +1152,7 @@ export default function Voices() {
 
                 <button
                   onClick={togglePlayPause}
-                  className="w-12 h-12 bg-yellow-400 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-colors"
+                  className="w-12 h-12 cursor-pointer bg-yellow-400 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-colors"
                 >
                   {isPlaying ? (
                     <Pause className="w-6 h-6 text-gray-900" />
@@ -1161,7 +1161,7 @@ export default function Voices() {
                   )}
                 </button>
 
-                <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                <button className="p-2 cursor-pointer  hover:bg-white/10 rounded-full transition-colors">
                   <SkipForward className="w-5 h-5" />
                 </button>
               </div>
@@ -1184,15 +1184,15 @@ export default function Voices() {
 
               {/* Additional Controls */}
               <div className="flex items-center gap-2">
-                <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <button className="p-2 cursor-pointer hover:bg-white/10 rounded-lg transition-colors">
                   <Volume2 className="w-5 h-5" />
                 </button>
-                <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <button className="p-2 cursor-pointer hover:bg-white/10 rounded-lg transition-colors">
                   <Bookmark className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setCurrentPodcast(null)}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-2 cursor-pointer hover:bg-white/10 rounded-lg transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -1210,7 +1210,7 @@ export default function Voices() {
               <h3 className="font-bold">{selectedVideo.title}</h3>
               <button
                 onClick={() => setSelectedVideo(null)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="cursor-pointer p-2 hover:bg-white/10 rounded-lg transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -1257,7 +1257,7 @@ export default function Voices() {
               </h3>
               <button
                 onClick={() => setShowNewsletterModal(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -1276,7 +1276,7 @@ export default function Voices() {
               />
               <button
                 type="submit"
-                className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-3 rounded-lg transition-colors"
+                className="cursor-pointer w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-3 rounded-lg transition-colors"
               >
                 Subscribe Now
               </button>

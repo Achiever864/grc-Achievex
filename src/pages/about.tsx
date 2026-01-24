@@ -350,7 +350,7 @@ export default function AboutPage(): React.ReactElement {
               <button
                 key={tab.id}
                 onClick={() => setActiveSection(tab.id)}
-                className={`px-6 py-2 rounded-full font-medium transition-all ${
+                className={`px-6 py-2 cursor-pointer rounded-full font-medium transition-all ${
                   activeSection === tab.id
                     ? "bg-[#95111c] text-white shadow-lg"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -709,7 +709,7 @@ export default function AboutPage(): React.ReactElement {
           </div>
 
           <div className="text-center mt-12">
-            <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2 mx-auto shadow-lg hover:scale-105">
+            <button className="cursor-pointer bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2 mx-auto shadow-lg hover:scale-105">
               Become a Partner
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -792,15 +792,15 @@ export default function AboutPage(): React.ReactElement {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105">
+            <button className="cursor-pointer bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105">
               <GraduationCap className="w-5 h-5" />
               Join as a Scholar
             </button>
-            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
+            <button className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
               <Users className="w-5 h-5" />
               Become a Mentor
             </button>
-            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
+            <button className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
               <Handshake className="w-5 h-5" />
               Partner With Us
             </button>

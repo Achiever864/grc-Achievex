@@ -219,7 +219,7 @@ export default function Toolbox(): React.ReactElement {
               {quickActions.map((action, idx) => (
                 <button
                   key={idx}
-                  className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-4 rounded-xl transition-all hover:scale-105 border border-white/20"
+                  className="cursor-pointer bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-4 rounded-xl transition-all hover:scale-105 border border-white/20"
                 >
                   <action.icon className="w-6 h-6 mx-auto mb-2" />
                   <span className="text-sm font-medium">{action.label}</span>
@@ -259,7 +259,7 @@ export default function Toolbox(): React.ReactElement {
               <button
                 key={cat.id}
                 onClick={() => setActiveFilter(cat.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all ${
+                className={`px-6 py-3 cursor-pointer rounded-full font-medium transition-all ${
                   activeFilter === cat.id
                     ? "bg-[#95111c] text-white shadow-lg scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -324,7 +324,7 @@ export default function Toolbox(): React.ReactElement {
                             <Users className="w-4 h-4" />
                             {tool.users.toLocaleString()} users
                           </div>
-                          <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-all flex items-center gap-2">
+                          <button className="cursor-pointer bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-all flex items-center gap-2">
                             Launch Tool
                             <ChevronRight className="w-4 h-4" />
                           </button>
@@ -372,7 +372,7 @@ export default function Toolbox(): React.ReactElement {
                         <Download className="w-4 h-4" />
                         {tool.downloads.toLocaleString()}
                       </div>
-                      <button className="text-[#95111c] hover:text-[#7a0e16] font-semibold text-sm flex items-center gap-1">
+                      <button className="cursor-pointer text-[#95111c] hover:text-[#7a0e16] font-semibold text-sm flex items-center gap-1">
                         Access
                         <ChevronRight className="w-4 h-4" />
                       </button>
@@ -414,7 +414,7 @@ export default function Toolbox(): React.ReactElement {
                           </span>
                         </div>
                       </div>
-                      <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white p-4 rounded-full transition-all hover:scale-110">
+                      <button className="cursor-pointerbg-[#95111c] hover:bg-[#7a0e16] text-white p-4 rounded-full transition-all hover:scale-110">
                         <Play className="w-6 h-6" />
                       </button>
                     </div>
@@ -447,7 +447,7 @@ export default function Toolbox(): React.ReactElement {
                 </div>
               </div>
 
-              <button className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 rounded-lg transition-all">
+              <button className="cursor-pointer w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 rounded-lg transition-all">
                 Try It Now
               </button>
             </div>
@@ -492,7 +492,7 @@ export default function Toolbox(): React.ReactElement {
                 We're constantly adding new tools. Let us know what would help
                 your research!
               </p>
-              <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-lg transition-all">
+              <button className="cursor-pointer w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-lg transition-all">
                 Request a Tool
               </button>
             </div>

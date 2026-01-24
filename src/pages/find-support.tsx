@@ -309,10 +309,10 @@ export default function FindSupport(): React.ReactElement {
               </select>
 
               <div className="flex gap-2">
-                <button className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-xl transition-all">
+                <button className="flex-1 cursor-pointer bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-xl transition-all">
                   Search Support
                 </button>
-                <button className="px-4 bg-white/20 hover:bg-white/30 text-white rounded-xl transition-all">
+                <button className="px-4 cursor-pointer bg-white/20 hover:bg-white/30 text-white rounded-xl transition-all">
                   <Filter className="w-6 h-6" />
                 </button>
               </div>
@@ -360,7 +360,7 @@ export default function FindSupport(): React.ReactElement {
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all ${
+                className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-full font-medium transition-all ${
                   activeCategory === cat.id
                     ? "bg-[#95111c] text-white shadow-lg scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -461,7 +461,7 @@ export default function FindSupport(): React.ReactElement {
                       )}
                     </div>
 
-                    <button className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <button className="w-full cursor-pointer bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2">
                       {service.cta}
                       <ChevronRight className="w-5 h-5" />
                     </button>
@@ -542,7 +542,7 @@ export default function FindSupport(): React.ReactElement {
                         <Globe className="w-4 h-4" />
                         Website
                       </a>
-                      <button className="ml-auto bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-all text-sm flex items-center gap-2">
+                      <button className="ml-auto cursor-pointer bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-all text-sm flex items-center gap-2">
                         Connect
                         <ChevronRight className="w-4 h-4" />
                       </button>
@@ -563,7 +563,7 @@ export default function FindSupport(): React.ReactElement {
                       setSelectedCountry("all");
                       setSearchQuery("");
                     }}
-                    className="text-[#95111c] hover:underline font-semibold"
+                    className="text-[#95111c] cursor-pointer hover:underline font-semibold"
                   >
                     Clear all filters
                   </button>
@@ -636,7 +636,7 @@ export default function FindSupport(): React.ReactElement {
                   +234 801 234 5678
                 </a>
               </div>
-              <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-lg transition-all">
+              <button className="w-full cursor-pointer bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 rounded-lg transition-all">
                 Contact Support Team
               </button>
             </div>
@@ -651,7 +651,7 @@ export default function FindSupport(): React.ReactElement {
                 Help us build a comprehensive directory by suggesting
                 organizations that support African scholars.
               </p>
-              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg transition-all">
+              <button className="w-full cursor-pointer bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg transition-all">
                 Submit Organization
               </button>
             </div>

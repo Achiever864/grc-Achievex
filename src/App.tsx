@@ -7,6 +7,7 @@ import LearningHub from "./pages/learning-hub";
 import PartnerPortal from "./pages/partner-portal";
 import FindSupport from "./pages/find-support";
 import AboutPage from "./pages/about";
+import Newsletter from "./components/ui/newsletter";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/home" component={Home} />
       <Route path="/about" component={AboutPage} />
+      <Route path="/newsletter" component={Newsletter} />
       <Route path="/knowledge-hub" component={Hub} />
       <Route path="/toolbox" component={ToolBox} />
       <Route path="/find-support" component={FindSupport} />

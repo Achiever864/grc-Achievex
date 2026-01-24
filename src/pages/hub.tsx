@@ -356,7 +356,7 @@ export default function KnowledgeHub(): React.ReactElement {
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all ${
+                className={`px-6 py-3 cursor-pointer rounded-full font-medium transition-all ${
                   activeCategory === cat.id
                     ? "bg-[#95111c] text-white shadow-lg scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -539,7 +539,7 @@ export default function KnowledgeHub(): React.ReactElement {
                         <Users className="w-4 h-4" />
                         {path.enrolled} enrolled
                       </div>
-                      <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-all">
+                      <button className="bg-[#95111c] hover:bg-[#7a0e16] cursor-pointer text-white font-semibold px-6 py-2 rounded-lg transition-all">
                         {path.completed > 0 ? "Continue" : "Start Path"}
                       </button>
                     </div>
@@ -562,7 +562,7 @@ export default function KnowledgeHub(): React.ReactElement {
                   </div>
                   <button
                     onClick={() => setShowQuickPoll(false)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-gray-400 cursor-pointer hover:text-gray-600"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -583,7 +583,7 @@ export default function KnowledgeHub(): React.ReactElement {
                       <button
                         key={option.id}
                         onClick={() => setSelectedPoll(option.id)}
-                        className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
+                        className={`w-full p-4 cursor-pointer rounded-lg border-2 transition-all text-left ${
                           isSelected
                             ? "border-[#95111c] bg-purple-50"
                             : "border-gray-200 hover:border-gray-300"
@@ -672,7 +672,7 @@ export default function KnowledgeHub(): React.ReactElement {
                         </div>
                       </div>
 
-                      <button className="p-3 rounded-lg bg-yellow-100 text-[#95111c] hover:bg-yellow-200 transition-colors shrink-0">
+                      <button className="p-3 cursor-pointer rounded-lg bg-yellow-100 text-[#95111c] hover:bg-yellow-200 transition-colors shrink-0">
                         <ChevronRight className="w-6 h-6" />
                       </button>
                     </div>
@@ -726,7 +726,7 @@ export default function KnowledgeHub(): React.ReactElement {
                     <div className="flex gap-2">
                       <button
                         onClick={() => toggleBookmark(idx)}
-                        className={`p-2 rounded-lg transition-all ${
+                        className={`p-2 cursor-pointer rounded-lg transition-all ${
                           bookmarkedResources.includes(idx)
                             ? "bg-yellow-100 text-yellow-600"
                             : "hover:bg-gray-100 text-gray-600"
@@ -736,7 +736,7 @@ export default function KnowledgeHub(): React.ReactElement {
                           className={`w-5 h-5 ${bookmarkedResources.includes(idx) ? "fill-current" : ""}`}
                         />
                       </button>
-                      <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                      <button className="p-2 cursor-pointer rounded-lg hover:bg-gray-100 transition-colors">
                         <Share2 className="w-5 h-5 text-gray-600" />
                       </button>
                     </div>
@@ -745,7 +745,7 @@ export default function KnowledgeHub(): React.ReactElement {
               </div>
 
               <div className="text-center mt-8">
-                <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-8 py-3 rounded-lg transition-all hover:shadow-lg">
+                <button className="bg-[#95111c] hover:bg-[#7a0e16] cursor-pointer text-white font-semibold px-8 py-3 rounded-lg transition-all hover:shadow-lg">
                   Load More Resources
                 </button>
               </div>
@@ -812,7 +812,7 @@ export default function KnowledgeHub(): React.ReactElement {
                         {webinar.speaker}
                       </p>
                     </div>
-                    <button className="mt-3 w-full bg-[#95111c] hover:bg-[#7a0e16] text-white text-sm font-semibold py-2 rounded-lg transition-colors">
+                    <button className="mt-3 cursor-pointer w-full bg-[#95111c] hover:bg-[#7a0e16] text-white text-sm font-semibold py-2 rounded-lg transition-colors">
                       Register ({webinar.spots} spots left)
                     </button>
                   </div>
@@ -849,7 +849,7 @@ export default function KnowledgeHub(): React.ReactElement {
                 ))}
               </div>
 
-              <button className="mt-4 w-full text-[#95111c] hover:text-[#7a0e16] font-semibold text-sm py-2 transition-colors">
+              <button className="mt-4 cursor-pointer w-full text-[#95111c] hover:text-[#7a0e16] font-semibold text-sm py-2 transition-colors">
                 View All Contributors →
               </button>
             </div>
@@ -861,7 +861,7 @@ export default function KnowledgeHub(): React.ReactElement {
               <p className="text-white/90 mb-6 text-sm">
                 Share your expertise and help fellow African scholars succeed
               </p>
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold px-6 py-3 rounded-lg transition-all w-full">
+              <button className="cursor-pointer bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold px-6 py-3 rounded-lg transition-all w-full">
                 Submit Your Resource
               </button>
             </div>

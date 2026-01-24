@@ -3,20 +3,18 @@ import { Header } from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import library from "@/assets/images/library.jpg";
+import { DonationModal } from "@/components/DonationModal";
 import {
   BookOpen,
   Users,
   Globe,
   GraduationCap,
   Target,
-  Lightbulb,
   Network,
   Award,
   ChevronRight,
-  Sparkles,
   TrendingUp,
   Heart,
-  DollarSign,
   Calendar,
   Mail,
   Star,
@@ -31,6 +29,16 @@ const Home = () => {
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
   const [selectedDonation, setSelectedDonation] = useState<number | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+  const [selectedDonationAmount, setSelectedDonationAmount] = useState<
+    number | null
+  >(null);
+
+  // Update the donation button clicks to open the modal
+  const handleDonateClick = (amount?: number) => {
+    setSelectedDonationAmount(amount || null);
+    setIsDonationModalOpen(true);
+  };
 
   const openAboutPage = () => {
     setLocation("/about");
@@ -112,10 +120,26 @@ const Home = () => {
   ];
 
   const donationOptions = [
-    { amount: 25, impact: "Support one mentorship session" },
-    { amount: 50, impact: "Fund research materials for a student" },
-    { amount: 100, impact: "Sponsor a workshop for 10 scholars" },
-    { amount: 250, impact: "Support a full research project" },
+    {
+      amount: 50000,
+      impact:
+        "Support a one year mentorship session for an undergraduate or postgraduate student",
+    },
+    {
+      amount: 250000,
+      impact:
+        "Support a training workshop/masterclass for up to 5 early career researchers",
+    },
+    {
+      amount: 1000000,
+      impact:
+        "Fund the provision of books and materials for an interdisciplinary research lab for up to 10 scholars",
+    },
+    {
+      amount: 10000000,
+      impact:
+        "Support a multi-year research and program development projects in several knowledge-based institutions",
+    },
   ];
 
   const testimonials = [
@@ -160,6 +184,9 @@ const Home = () => {
     },
   ];
 
+  const formatAmount = (amount: number) =>
+    new Intl.NumberFormat("en-NG").format(amount);
+
   return (
     <div className="bg-linear-to-b from-purple-50 to-white">
       <Header />
@@ -177,7 +204,6 @@ const Home = () => {
           <div className="max-w-7xl mx-auto w-full">
             <div className="max-w-3xl text-white space-y-6 animate-in fade-in slide-in-from-left-8 duration-1000">
               <div className="flex items-center gap-2 text-yellow-400 mb-4">
-                <Sparkles className="w-6 h-6" />
                 <span className="text-sm font-semibold tracking-wider uppercase">
                   The Graduate Research Clinic
                 </span>
@@ -243,10 +269,11 @@ const Home = () => {
       </section>
 
       {/* Vision & Mission */}
+      {/* Vision & Mission - Simplified */}
       <section
         id="vision-mission"
         data-animate
-        className={`relative py-16 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden transition-all duration-1000 ${
+        className={`relative py-16 lg:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden transition-all duration-1000 ${
           isVisible["vision-mission"]
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-10"
@@ -256,15 +283,9 @@ const Home = () => {
         <div className="absolute inset-0 bg-linear-to-br from-purple-50 via-white to-blue-50 opacity-60"></div>
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iIzk1MTExYyIgc3Ryb2tlLW9wYWNpdHk9Ii4xIi8+PC9nPjwvc3ZnPg==')] opacity-30"></div>
 
-        <div className="max-w-7xl mx-auto relative">
+        <div className="max-w-4xl mx-auto relative text-center">
           {/* Section Header */}
-          <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-2 bg-[#95111c]/10 px-6 py-2 rounded-full mb-4">
-              <Sparkles className="w-5 h-5 text-[#95111c]" />
-              <span className="text-sm font-semibold text-[#95111c] tracking-wider uppercase">
-                Our Purpose
-              </span>
-            </div>
+          <div className="mb-8">
             <h2 className="text-4xl lg:text-5xl font-bold text-[#95111c] mb-4">
               Vision & Mission
             </h2>
@@ -274,126 +295,14 @@ const Home = () => {
             </p>
           </div>
 
-          {/* Vision & Mission Layout */}
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-            {/* Vision Card */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-linear-to-br from-[#95111c] to-[#7a0e16] rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300 opacity-10"></div>
-              <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-2xl hover:shadow-3xl transition-all duration-300 border border-gray-100 h-full flex flex-col">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    <div className="p-4 bg-linear-to-br from-[#95111c] to-[#7a0e16] rounded-2xl group-hover:scale-110 transition-transform">
-                      <Target className="w-8 h-8 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-3xl font-bold text-[#95111c] mb-1">
-                        Our Vision
-                      </h3>
-                      <div className="h-1 w-16 bg-yellow-400 rounded-full"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-gray-700 text-lg leading-relaxed flex-1">
-                  To be one of the{" "}
-                  <span className="font-semibold text-[#95111c]">
-                    topmost African non-profit organizations
-                  </span>{" "}
-                  that fosters innovative research and collaboration across
-                  disciplines, generations, and geographical boundaries,
-                  empowering African scholars to address complex global
-                  challenges and contribute to sustainable development in Africa
-                  and beyond.
-                </p>
-
-                {/* Key Points */}
-                <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-100">
-                  {[
-                    { icon: Globe, text: "Pan-African" },
-                    { icon: Users, text: "Collaborative" },
-                    { icon: Lightbulb, text: "Innovative" },
-                    { icon: TrendingUp, text: "Impactful" },
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <item.icon className="w-5 h-5 text-[#95111c]" />
-                      <span className="text-sm font-medium text-gray-700">
-                        {item.text}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Mission Card */}
-            <div className="group relative">
-              <div className="absolute inset-0 bg-linear-to-br from-yellow-400 to-yellow-500 rounded-3xl transform -rotate-3 group-hover:-rotate-6 transition-transform duration-300 opacity-10"></div>
-              <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-2xl hover:shadow-3xl transition-all duration-300 border border-gray-100 h-full flex flex-col">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center gap-4">
-                    <div className="p-4 bg-linear-to-br from-yellow-500 to-yellow-600 rounded-2xl group-hover:scale-110 transition-transform">
-                      <Lightbulb className="w-8 h-8 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-3xl font-bold text-[#95111c] mb-1">
-                        Our Mission
-                      </h3>
-                      <div className="h-1 w-16 bg-[#95111c] rounded-full"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-gray-700 text-lg leading-relaxed flex-1">
-                  To create a{" "}
-                  <span className="font-semibold text-[#95111c]">
-                    powerful support network
-                  </span>{" "}
-                  across all levels of the academic value chain, connecting
-                  students, scholars, and acadepreneurs with established experts
-                  for knowledge transfer, collaboration, career mobility, and
-                  empowering the next generation of African researchers.
-                </p>
-
-                {/* Key Actions */}
-                <div className="space-y-3 mt-6 pt-6 border-t border-gray-100">
-                  {[
-                    { icon: Network, text: "Connect & Mentor" },
-                    { icon: BookOpen, text: "Knowledge Transfer" },
-                    { icon: GraduationCap, text: "Empower Scholars" },
-                    { icon: Award, text: "Career Advancement" },
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <div className="p-2 bg-yellow-100 rounded-lg">
-                        <item.icon className="w-4 h-4 text-[#95111c]" />
-                      </div>
-                      <span className="text-sm font-medium text-gray-700">
-                        {item.text}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom CTA */}
-          <div className="mt-12 text-center">
-            <p className="text-gray-600 mb-6 text-lg">
-              Join us in building the future of African scholarship
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={openAboutPage}
-                className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-8 py-3 rounded-lg transition-all hover:shadow-lg group"
-              >
-                Learn More About Us
-                <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="border-2 border-[#95111c] text-[#95111c] hover:bg-[#95111c] hover:text-white font-bold px-8 py-3 rounded-lg transition-all">
-                Our Impact Stories
-              </button>
-            </div>
-          </div>
+          {/* CTA Button */}
+          <button
+            onClick={openAboutPage}
+            className="bg-[#95111c] hover:bg-[#7a0e16] cursor-pointer text-white font-bold px-8 py-4 rounded-lg transition-all hover:shadow-lg group inline-flex items-center"
+          >
+            Learn More About Us
+            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
       </section>
 
@@ -476,14 +385,14 @@ const Home = () => {
                     <button
                       key={idx}
                       onClick={() => setSelectedDonation(option.amount)}
-                      className={`p-6 rounded-xl border-2 transition-all text-left ${
+                      className={`p-6 cursor-pointer rounded-xl border-2 transition-all text-left ${
                         selectedDonation === option.amount
                           ? "border-[#95111c] bg-[#95111c] text-white shadow-lg scale-105"
                           : "border-gray-200 hover:border-[#95111c] hover:shadow-md"
                       }`}
                     >
                       <div className="text-3xl font-bold mb-2">
-                        ${option.amount}
+                        #{formatAmount(option.amount)}
                       </div>
                       <div
                         className={`text-sm ${
@@ -503,11 +412,10 @@ const Home = () => {
                     Custom Amount
                   </label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <input
                       type="number"
                       placeholder="Enter amount"
-                      className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
+                      className="w-full pl-6 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
                       onChange={(e) =>
                         setSelectedDonation(Number(e.target.value))
                       }
@@ -517,11 +425,20 @@ const Home = () => {
 
                 <Button
                   size="lg"
+                  onClick={() =>
+                    handleDonateClick(selectedDonation ?? undefined)
+                  }
                   className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-6 text-lg"
                 >
                   <Heart className="mr-2" />
                   Donate Now
                 </Button>
+
+                <DonationModal
+                  isOpen={isDonationModalOpen}
+                  onClose={() => setIsDonationModalOpen(false)}
+                  preselectedAmount={selectedDonationAmount}
+                />
               </div>
 
               {/* Impact Info */}

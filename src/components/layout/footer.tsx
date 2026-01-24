@@ -194,7 +194,7 @@ export default function Footer() {
                 placeholder="Your email"
                 className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:bg-white/20 focus:border-yellow-400 focus:outline-none transition-all"
               />
-              <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-2.5 rounded-lg transition-all hover:shadow-lg flex items-center justify-center gap-2">
+              <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-2.5 rounded-lg transition-all hover:shadow-lg cursor-pointer flex items-center justify-center gap-2">
                 Subscribe
                 <ArrowRight className="w-4 h-4" />
               </button>

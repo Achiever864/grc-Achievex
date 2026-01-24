@@ -94,14 +94,16 @@ export const Header = () => {
               </div>
 
               {/* Newsletter Button */}
-              <button
-                className="bg-[#95111c] hover:bg-[#78141c] text-white px-4 xl:px-5 py-2 rounded-lg transition-all hover:shadow-lg flex items-center gap-2 group text-sm xl:text-base font-medium"
-                aria-label="Subscribe to newsletter"
-              >
-                <Mail className="w-4 h-4" />
-                <span className="hidden xl:inline">Newsletter</span>
-                <ArrowRight className="w-4 h-4 xl:hidden group-hover:translate-x-1 transition-transform" />
-              </button>
+              <Link href="/newsletter">
+                <button
+                  className="bg-[#95111c] hover:bg-[#78141c] cursor-pointer text-white px-4 xl:px-5 py-2 rounded-lg transition-all hover:shadow-lg flex items-center gap-2 group text-sm xl:text-base font-medium"
+                  aria-label="Subscribe to newsletter"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span className="hidden xl:inline">Newsletter</span>
+                  <ArrowRight className="w-4 h-4 xl:hidden group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
 
               {/* Search */}
               <div className="relative">
@@ -118,7 +120,7 @@ export const Header = () => {
             <div className="flex lg:hidden items-center gap-2">
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className={`p-2 rounded-lg transition-all ${
+                className={`p-2 cursor-pointer rounded-lg transition-all ${
                   isSearchOpen
                     ? "bg-[#95111c] text-white"
                     : "text-[#95111c] hover:bg-gray-100"
@@ -129,7 +131,7 @@ export const Header = () => {
               </button>
 
               <button
-                className="bg-[#95111c] hover:bg-[#78141c] text-white p-2 rounded-lg transition-colors"
+                className="bg-[#95111c] hover:bg-[#78141c] cursor-pointer text-white p-2 rounded-lg transition-colors"
                 aria-label="Subscribe"
               >
                 <Mail className="w-5 h-5" />
@@ -137,7 +139,7 @@ export const Header = () => {
 
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`p-2 rounded-lg transition-all ${
+                className={`p-2 cursor-pointerrounded-lg transition-all ${
                   isMobileMenuOpen
                     ? "bg-[#95111c] text-white"
                     : "text-[#95111c] hover:bg-gray-100"

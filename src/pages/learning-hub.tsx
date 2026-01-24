@@ -294,7 +294,7 @@ export default function LearningHub() {
                           </span>
                         </div>
                         <p className="text-gray-600 mb-4">{path.description}</p>
-                        <button className="text-[#95111c] font-semibold flex items-center gap-2 hover:gap-3 transition-all">
+                        <button className="cursor-pointer text-[#95111c] font-semibold flex items-center gap-2 hover:gap-3 transition-all">
                           Explore Track <ArrowRight className="w-4 h-4" />
                         </button>
                       </div>
@@ -380,7 +380,7 @@ export default function LearningHub() {
                               </span>
                             </div>
 
-                            <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-colors">
+                            <button className="cursor-pointer bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-2 rounded-lg transition-colors">
                               Enroll Free
                             </button>
                           </div>
@@ -441,7 +441,7 @@ export default function LearningHub() {
                           <span>{course.enrolled}</span>
                         </div>
 
-                        <button className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold py-2 rounded-lg transition-colors">
+                        <button className="cursor-pointer w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold py-2 rounded-lg transition-colors">
                           Start Learning
                         </button>
                       </div>
@@ -501,7 +501,7 @@ export default function LearningHub() {
                 </div>
               </div>
 
-              <button className="w-full bg-white text-[#95111c] font-bold py-3 rounded-lg hover:bg-gray-100 transition-colors mt-6">
+              <button className="cursor-pointer w-full bg-white text-[#95111c] font-bold py-3 rounded-lg hover:bg-gray-100 transition-colors mt-6">
                 View Dashboard
               </button>
             </div>
@@ -522,7 +522,7 @@ export default function LearningHub() {
                 ].map((item, idx) => (
                   <button
                     key={idx}
-                    className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-purple-50 rounded-lg transition-colors group"
+                    className="cursor-pointer w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-purple-50 rounded-lg transition-colors group"
                   >
                     <div className="flex items-center gap-3">
                       <item.icon className="w-5 h-5 text-gray-600 group-hover:text-[#95111c]" />
@@ -544,7 +544,7 @@ export default function LearningHub() {
               <p className="text-white/90 mb-4 text-sm">
                 Share your expertise with thousands of African researchers.
               </p>
-              <button className="w-full bg-white text-blue-600 font-bold py-3 rounded-lg hover:bg-gray-100 transition-colors">
+              <button className="cursor-pointer w-full bg-white text-blue-600 font-bold py-3 rounded-lg hover:bg-gray-100 transition-colors">
                 Apply Now
               </button>
             </div>
@@ -562,7 +562,7 @@ export default function LearningHub() {
               </h2>
               <button
                 onClick={() => setShowCourseModal(false)}
-                className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white"
+                className="cursor-pointer w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -630,7 +630,7 @@ export default function LearningHub() {
                 </div>
               </div>
 
-              <button className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+              <button className="cursor-pointer w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-4 rounded-lg transition-colors flex items-center justify-center gap-2">
                 <PlayCircle className="w-5 h-5" />
                 Start Learning Now - Free
               </button>

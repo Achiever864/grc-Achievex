@@ -213,11 +213,11 @@ export default function PartnerPortal(): React.ReactElement {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2 shadow-lg hover:scale-105">
+              <button className="cursor-pointer bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2 shadow-lg hover:scale-105">
                 Become a Partner
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30">
+              <button className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30">
                 Download Partnership Guide
               </button>
             </div>
@@ -286,7 +286,7 @@ export default function PartnerPortal(): React.ReactElement {
                   ))}
                 </div>
 
-                <button className="mt-6 w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
+                <button className="cursor-pointer mt-6 w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
                   Learn More
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -433,11 +433,11 @@ export default function PartnerPortal(): React.ReactElement {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105">
+            <button className="cursor-pointer bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105">
               <Mail className="w-5 h-5" />
               Get in Touch
             </button>
-            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
+            <button className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
               <FileText className="w-5 h-5" />
               Partnership Proposal Template
             </button>
