@@ -252,21 +252,23 @@ export default function Toolbox(): React.ReactElement {
       </section>
 
       {/* Category Filter */}
-      <section className="sticky top-16 bg-white/95 backdrop-blur-sm z-40 shadow-sm py-6 px-4">
+      <section className="lg:sticky lg:top-16 bg-white/95 backdrop-blur-sm z-40 shadow-sm py-4 sm:py-6 px-4 mb-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
             {toolCategories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveFilter(cat.id)}
-                className={`px-6 py-3 cursor-pointer rounded-full font-medium transition-all ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 cursor-pointer rounded-full text-sm sm:text-base font-medium transition-all ${
                   activeFilter === cat.id
                     ? "bg-[#95111c] text-white shadow-lg scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
                 {cat.label}
-                <span className="ml-2 text-sm opacity-75">({cat.count})</span>
+                <span className="ml-1.5 sm:ml-2 text-xs sm:text-sm opacity-75">
+                  ({cat.count})
+                </span>
               </button>
             ))}
           </div>

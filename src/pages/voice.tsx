@@ -518,20 +518,21 @@ export default function Voices() {
       </section>
 
       {/* Category Navigation */}
-      <section className="sticky top-16 bg-white/95 backdrop-blur-sm z-40 shadow-sm py-6">
+      {/* Sticky only on desktop, static on mobile */}
+      <section className="lg:sticky lg:top-16 bg-white/95 backdrop-blur-sm z-40 shadow-sm py-4 sm:py-6 mb-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-3 justify-center mb-4">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mb-3 sm:mb-4">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`cursor-pointerpx-6 py-3 rounded-full font-medium transition-all flex items-center gap-2 ${
+                className={`cursor-pointer px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all flex items-center gap-2 ${
                   selectedCategory === cat.id
                     ? "bg-[#95111c] text-white shadow-lg scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
-                <cat.icon className="w-5 h-5" />
+                <cat.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                 {cat.label}
               </button>
             ))}
@@ -543,7 +544,7 @@ export default function Voices() {
               <button
                 key={region.id}
                 onClick={() => setSelectedRegion(region.id)}
-                className={`cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`cursor-pointer px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
                   selectedRegion === region.id
                     ? "bg-purple-600 text-white"
                     : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
@@ -555,6 +556,11 @@ export default function Voices() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* No extra spacing needed */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Your content */}
       </section>
 
       {/* Main Content with Sidebar */}

@@ -353,22 +353,24 @@ export default function FindSupport(): React.ReactElement {
       </section>
 
       {/* Support Categories */}
-      <section className="py-12 px-4 sticky top-16 bg-white/95 backdrop-blur-sm z-40 shadow-sm">
+      <section className="py-6 sm:py-8 lg:py-12 px-4 lg:sticky lg:top-16 bg-white/95 backdrop-blur-sm z-40 shadow-sm mb-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
             {supportCategories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`flex cursor-pointer items-center gap-2 px-6 py-3 rounded-full font-medium transition-all ${
+                className={`flex cursor-pointer items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all ${
                   activeCategory === cat.id
                     ? "bg-[#95111c] text-white shadow-lg scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
-                <cat.icon className="w-5 h-5" />
+                <cat.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                 {cat.label}
-                <span className="text-sm opacity-75">({cat.count})</span>
+                <span className="text-xs sm:text-sm opacity-75">
+                  ({cat.count})
+                </span>
               </button>
             ))}
           </div>

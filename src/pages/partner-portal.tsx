@@ -262,13 +262,16 @@ export default function PartnerPortal(): React.ReactElement {
             {partnershipTypes.map((type, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all p-8 border border-gray-100 group cursor-pointer"
+                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all p-8 border border-gray-100 group cursor-pointer flex flex-col"
                 onClick={() => setPartnerType(type.title)}
               >
-                <div
-                  className={`inline-flex p-4 bg-linear-to-br ${type.color} rounded-xl mb-6 group-hover:scale-110 transition-transform`}
-                >
-                  <type.icon className="w-8 h-8 text-white" />
+                {/* Icon - Fixed width container */}
+                <div className="mb-6">
+                  <div
+                    className={`p-4 bg-linear-to-br ${type.color} rounded-xl inline-flex group-hover:scale-110 transition-transform`}
+                  >
+                    <type.icon className="w-8 h-8 text-white" />
+                  </div>
                 </div>
 
                 <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-[#95111c] transition-colors">
@@ -277,7 +280,8 @@ export default function PartnerPortal(): React.ReactElement {
 
                 <p className="text-gray-600 mb-6">{type.description}</p>
 
-                <div className="space-y-3">
+                {/* Benefits list with flex-1 to push button down */}
+                <div className="space-y-3 flex-1 mb-6">
                   {type.benefits.map((benefit, bidx) => (
                     <div key={bidx} className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
@@ -286,7 +290,8 @@ export default function PartnerPortal(): React.ReactElement {
                   ))}
                 </div>
 
-                <button className="cursor-pointer mt-6 w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
+                {/* Button - Always at bottom */}
+                <button className="cursor-pointer w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
                   Learn More
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -348,19 +353,30 @@ export default function PartnerPortal(): React.ReactElement {
             {currentPartners.map((partner, idx) => (
               <div
                 key={idx}
-                className="bg-linear-to-br from-white to-purple-50 rounded-xl shadow-md hover:shadow-xl transition-all p-6 border border-purple-100 text-center"
+                className="bg-linear-to-br from-white to-purple-50 rounded-xl shadow-md hover:shadow-xl transition-all p-6 border border-purple-100 text-center flex flex-col"
               >
+                {/* Icon */}
                 <div className="w-20 h-20 bg-[#95111c] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Building2 className="w-10 h-10 text-white" />
                 </div>
 
-                <h3 className="font-bold text-gray-900 mb-2">{partner.name}</h3>
-                <p className="text-sm text-gray-600 mb-1">{partner.type}</p>
-                <p className="text-xs text-purple-600 mb-3">
+                {/* Partner Name - Fixed height */}
+                <h3 className="font-bold text-gray-900 mb-2 min-h-12 flex items-center justify-center">
+                  {partner.name}
+                </h3>
+
+                {/* Type - Fixed height */}
+                <p className="text-sm text-gray-600 mb-1 min-h-5">
+                  {partner.type}
+                </p>
+
+                {/* Since - Fixed height */}
+                <p className="text-xs text-purple-600 mb-3 min-h-4">
                   Partner since {partner.since}
                 </p>
 
-                <div className="pt-3 border-t border-purple-200">
+                {/* Focus - Flexible space, pushes to bottom */}
+                <div className="pt-3 border-t border-purple-200 mt-auto">
                   <p className="text-xs text-gray-700">
                     <strong>Focus:</strong> {partner.focus}
                   </p>
