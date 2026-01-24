@@ -130,12 +130,14 @@ export const Header = () => {
                 <Search className="w-5 h-5" />
               </button>
 
-              <button
-                className="bg-[#95111c] hover:bg-[#78141c] cursor-pointer text-white p-2 rounded-lg transition-colors"
-                aria-label="Subscribe"
-              >
-                <Mail className="w-5 h-5" />
-              </button>
+              <Link href="/newsletter">
+                <button
+                  className="bg-[#95111c] hover:bg-[#78141c] cursor-pointer text-white p-2 rounded-lg transition-colors"
+                  aria-label="Subscribe"
+                >
+                  <Mail className="w-5 h-5" />
+                </button>
+              </Link>
 
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
