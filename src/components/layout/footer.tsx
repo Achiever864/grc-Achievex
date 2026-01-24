@@ -59,7 +59,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-[#95111c] via-[#8f2029] to-[#7a0e16] text-white">
+    <footer className="bg-linear-to-br from-[#95111c] via-[#8f2029] to-[#7a0e16] text-white">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
@@ -72,7 +72,7 @@ export default function Footer() {
 
             <div className="space-y-3 text-sm text-white/90">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-yellow-400" />
+                <MapPin className="w-5 h-5 shrink-0 mt-0.5 text-yellow-400" />
                 <p>
                   Script Building,
                   <br />
@@ -83,7 +83,7 @@ export default function Footer() {
               </div>
 
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 flex-shrink-0 text-yellow-400" />
+                <Mail className="w-5 h-5 shrink-0 text-yellow-400" />
                 <a
                   href="mailto:info@graduateresearchclinic.org"
                   className="hover:text-yellow-400 transition-colors hover:underline"
@@ -93,7 +93,7 @@ export default function Footer() {
               </div>
 
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 flex-shrink-0 text-yellow-400" />
+                <Phone className="w-5 h-5 shrink-0 text-yellow-400" />
                 <a
                   href="tel:+2348012345678"
                   className="hover:text-yellow-400 transition-colors"
