@@ -23,6 +23,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 const Home = () => {
   const [, setLocation] = useLocation();
@@ -364,38 +365,41 @@ const Home = () => {
                 Support Our Mission
               </span>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-[#95111c] mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#95111c] mb-4">
               Make an Impact Today
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
               Your donation empowers the next generation of African scholars and
               researchers
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-2xl p-8 lg:p-12">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-12">
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
               {/* Donation Options */}
               <div>
-                <h3 className="text-2xl font-bold text-[#95111c] mb-6">
+                <h3 className="text-xl sm:text-2xl font-bold text-[#95111c] mb-4 sm:mb-6">
                   Select Amount
                 </h3>
-                <div className="grid grid-cols-2 gap-4 mb-6">
+
+                {/* Preset Amounts - Responsive Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
                   {donationOptions.map((option, idx) => (
                     <button
                       key={idx}
                       onClick={() => setSelectedDonation(option.amount)}
-                      className={`p-6 cursor-pointer rounded-xl border-2 transition-all text-left ${
+                      className={`p-4 sm:p-6 cursor-pointer rounded-xl border-2 transition-all text-left ${
                         selectedDonation === option.amount
                           ? "border-[#95111c] bg-[#95111c] text-white shadow-lg scale-105"
                           : "border-gray-200 hover:border-[#95111c] hover:shadow-md"
                       }`}
                     >
-                      <div className="text-3xl font-bold mb-2">
-                        #{formatAmount(option.amount)}
+                      <div className="flex items-center gap-0.5 text-2xl sm:text-3xl font-bold mb-2">
+                        <TbCurrencyNaira className="w-8 h-8 sm:w-9 sm:h-9 " />
+                        <span>{formatAmount(option.amount)}</span>
                       </div>
                       <div
-                        className={`text-sm ${
+                        className={`text-xs sm:text-sm ${
                           selectedDonation === option.amount
                             ? "text-white/90"
                             : "text-gray-600"
@@ -407,15 +411,17 @@ const Home = () => {
                   ))}
                 </div>
 
+                {/* Custom Amount */}
                 <div className="mb-6">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Custom Amount
                   </label>
                   <div className="relative">
+                    <TbCurrencyNaira className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <input
                       type="number"
                       placeholder="Enter amount"
-                      className="w-full pl-6 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
+                      className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none text-base"
                       onChange={(e) =>
                         setSelectedDonation(Number(e.target.value))
                       }
@@ -423,30 +429,25 @@ const Home = () => {
                   </div>
                 </div>
 
+                {/* Donate Button */}
                 <Button
                   size="lg"
                   onClick={() =>
                     handleDonateClick(selectedDonation ?? undefined)
                   }
-                  className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-6 text-lg"
+                  className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-4 sm:py-6 text-base sm:text-lg"
                 >
-                  <Heart className="mr-2" />
+                  <Heart className="mr-2 w-5 h-5" />
                   Donate Now
                 </Button>
-
-                <DonationModal
-                  isOpen={isDonationModalOpen}
-                  onClose={() => setIsDonationModalOpen(false)}
-                  preselectedAmount={selectedDonationAmount}
-                />
               </div>
 
               {/* Impact Info */}
-              <div className="bg-linear-to-br from-purple-50 to-blue-50 rounded-xl p-8">
-                <h3 className="text-2xl font-bold text-[#95111c] mb-6">
+              <div className="bg-linear-to-br from-purple-50 to-blue-50 rounded-xl p-6 sm:p-8">
+                <h3 className="text-xl sm:text-2xl font-bold text-[#95111c] mb-4 sm:mb-6">
                   Your Impact
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {[
                     {
                       icon: GraduationCap,
@@ -459,17 +460,19 @@ const Home = () => {
                     { icon: Users, text: "Connect mentors with students" },
                     { icon: Globe, text: "Support pan-African collaboration" },
                   ].map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-4">
+                    <div key={idx} className="flex items-start gap-3 sm:gap-4">
                       <div className="p-2 bg-white rounded-lg shrink-0">
-                        <item.icon className="w-6 h-6 text-[#95111c]" />
+                        <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#95111c]" />
                       </div>
-                      <p className="text-gray-700 pt-1">{item.text}</p>
+                      <p className="text-sm sm:text-base text-gray-700 pt-1">
+                        {item.text}
+                      </p>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-8 p-4 bg-white rounded-lg border-l-4 border-[#95111c]">
-                  <p className="text-sm text-gray-600 italic">
+                <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-white rounded-lg border-l-4 border-[#95111c]">
+                  <p className="text-xs sm:text-sm text-gray-600 italic">
                     "Every donation, no matter the size, creates ripple effects
                     across the African academic community."
                   </p>
@@ -479,6 +482,12 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <DonationModal
+        isOpen={isDonationModalOpen}
+        onClose={() => setIsDonationModalOpen(false)}
+        preselectedAmount={selectedDonationAmount}
+      />
 
       {/* Upcoming Events */}
       <section
@@ -493,7 +502,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-[#95111c] mb-4">
-              Upcoming Events
+              Register for Upcoming Events{" "}
             </h2>
             <p className="text-xl text-gray-600">
               Join our workshops, webinars, and networking events

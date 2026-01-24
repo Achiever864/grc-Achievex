@@ -12,6 +12,7 @@ import {
   Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -168,7 +169,7 @@ export const DonationModal = ({
                     </h3>
 
                     {/* Preset Amounts */}
-                    <div className="grid grid-cols-2 gap-3 mb-6">
+                    <div className="grid grid-cols-2 gap-3 mb-6 max-w-3xl">
                       {donationAmounts.map((amount) => (
                         <button
                           key={amount}
@@ -179,8 +180,9 @@ export const DonationModal = ({
                               : "border-gray-200 hover:border-[#95111c] hover:shadow-md"
                           }`}
                         >
-                          <div className="text-2xl font-bold">
-                            #{formatAmount(amount)}
+                          <div className="text-2xl font-bold flex items-center justify-center">
+                            <TbCurrencyNaira className="size-8" />
+                            {formatAmount(amount)}
                           </div>
                         </button>
                       ))}
@@ -210,7 +212,12 @@ export const DonationModal = ({
                       disabled={getCurrentAmount() === 0}
                       className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-4 rounded-xl text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Continue - #{formatAmount(getCurrentAmount())}
+                      <span>Continue -</span>
+
+                      <div className="text-xl flex items-center">
+                        <TbCurrencyNaira className="size-12" />
+                        {formatAmount(getCurrentAmount())}
+                      </div>
                     </Button>
                   </motion.div>
                 )}
