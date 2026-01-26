@@ -5,8 +5,14 @@ yarn.lock
 
 # Environment variables
 .env
+.env.example
 .env.local
 .env.*.local
+.env.production
+
+*.env
+backend/.env
+frontend/.env
 
 # Build outputs
 dist/
