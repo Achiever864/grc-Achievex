@@ -79,34 +79,91 @@ export default function PartnerPortal(): React.ReactElement {
     },
   ];
 
-  const currentPartners = [
+  // const currentPartners = [
+  //   {
+  //     name: "African Research Universities Alliance",
+  //     type: "Academic Institution",
+  //     since: "2022",
+  //     focus: "Multi-disciplinary research",
+  //     logo: null,
+  //   },
+  //   {
+  //     name: "Gates Foundation Africa",
+  //     type: "Foundation",
+  //     since: "2023",
+  //     focus: "Health & Development",
+  //     logo: null,
+  //   },
+  //   {
+  //     name: "Pan-African University",
+  //     type: "Academic Institution",
+  //     since: "2021",
+  //     focus: "Graduate education",
+  //     logo: null,
+  //   },
+  //   {
+  //     name: "African Development Bank",
+  //     type: "International Organization",
+  //     since: "2023",
+  //     focus: "Economic research",
+  //     logo: null,
+  //   },
+  // ];
+
+  // Strategic Partners - Updated with actual partners
+
+  const strategicPartners = [
     {
-      name: "African Research Universities Alliance",
-      type: "Academic Institution",
-      since: "2022",
-      focus: "Multi-disciplinary research",
-      logo: null,
+      name: "SHRIN",
+      fullName: "Slum and Rural Health Initiative",
+      type: "Health Organization",
+      description:
+        "Partnering to improve health outcomes in underserved communities",
     },
     {
-      name: "Gates Foundation Africa",
+      name: "NAL",
+      fullName: "Nigerian Academy of Letters",
+      type: "Academic Institution",
+      description: "Collaboration on literary research and academic excellence",
+    },
+    {
+      name: "NIIA",
+      fullName: "Nigerian Institute of International Affairs",
+      type: "Research Institute",
+      description:
+        "Joint research on international relations and policy analysis",
+    },
+    {
+      name: "ASLI",
+      fullName: "African Space Leadership Institute",
+      type: "Space & Technology",
+      description:
+        "Advancing space science research and leadership development",
+    },
+    {
+      name: "DiasporaNG",
+      fullName: "DiasporaNG",
+      type: "Diaspora Network",
+      description: "Connecting African diaspora scholars and professionals",
+    },
+    {
+      name: "HelpMum Africa",
+      fullName: "HelpMum Africa",
+      type: "NGO",
+      description:
+        "Supporting maternal health and women's empowerment initiatives",
+    },
+    {
+      name: "Duke of Shomolu Foundation",
+      fullName: "Duke of Shomolu Foundation",
       type: "Foundation",
-      since: "2023",
-      focus: "Health & Development",
-      logo: null,
+      description: "Community development and educational advancement programs",
     },
     {
-      name: "Pan-African University",
-      type: "Academic Institution",
-      since: "2021",
-      focus: "Graduate education",
-      logo: null,
-    },
-    {
-      name: "African Development Bank",
-      type: "International Organization",
-      since: "2023",
-      focus: "Economic research",
-      logo: null,
+      name: "Achievers University, Owo",
+      fullName: "Achievers University, Owo",
+      type: "Educational Institution",
+      description: "Academic collaboration and capacity building initiatives",
     },
   ];
 
@@ -338,19 +395,19 @@ export default function PartnerPortal(): React.ReactElement {
         </section>
 
         {/* Current Partners */}
-        <section className="mb-20">
+        <section id="partners" className="mb-32 scroll-mt-32">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-[#95111c] mb-4">
-              Our Valued Partners
+              Our Strategic Partners
             </h2>
-            <p className="text-xl text-gray-600">
-              Organizations making a difference in African research and
-              education
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Collaborating with leading institutions to amplify our impact
+              across Africa
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {currentPartners.map((partner, idx) => (
+            {strategicPartners.map((partner, idx) => (
               <div
                 key={idx}
                 className="bg-linear-to-br from-white to-purple-50 rounded-xl shadow-md hover:shadow-xl transition-all p-6 border border-purple-100 text-center flex flex-col"
@@ -361,28 +418,37 @@ export default function PartnerPortal(): React.ReactElement {
                 </div>
 
                 {/* Partner Name - Fixed height */}
-                <h3 className="font-bold text-gray-900 mb-2 min-h-12 flex items-center justify-center">
+                <h3 className="font-bold text-2xl text-gray-900 min-h-12 flex items-center justify-center">
                   {partner.name}
                 </h3>
 
-                {/* Type - Fixed height */}
-                <p className="text-sm text-gray-600 mb-1 min-h-5">
-                  {partner.type}
+                {/* Full Name - Fixed height */}
+                <p className="text-sm text-gray-600 mb-3 min-h-10 flex items-center justify-center">
+                  {partner.fullName}
                 </p>
 
-                {/* Since - Fixed height */}
-                <p className="text-xs text-purple-600 mb-3 min-h-4">
-                  Partner since {partner.since}
-                </p>
+                {/* Type Badge */}
+                <div className="mb-4">
+                  <span className="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
+                    {partner.type}
+                  </span>
+                </div>
 
-                {/* Focus - Flexible space, pushes to bottom */}
+                {/* Description - Flexible space, pushes to bottom */}
                 <div className="pt-3 border-t border-purple-200 mt-auto">
-                  <p className="text-xs text-gray-700">
-                    <strong>Focus:</strong> {partner.focus}
+                  <p className="text-xs text-gray-700 leading-relaxed">
+                    {partner.description}
                   </p>
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2 mx-auto shadow-lg hover:scale-105">
+              Become a Partner
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
         </section>
 

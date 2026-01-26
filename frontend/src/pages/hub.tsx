@@ -284,12 +284,13 @@ export default function KnowledgeHub(): React.ReactElement {
           />
           <div className="absolute inset-0 bg-linear-to-r from-[#95111c]/90 to-[#95111c]/70"></div>
         </div>
-        {/* Breadcrumb Navigation */}
-        <div className="absolute top-6 left-4 sm:left-6 lg:left-8 z-20">
-          <Breadcrumb current="Knowledge Hub" />
-        </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb Navigation */}
+          <div className="mb-6 inline-block rounded-lg px-4 py-2">
+            <Breadcrumb current="Knowledge Hub" />
+          </div>
+
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-yellow-400 px-6 py-2 rounded-full mb-6">
               <BookOpen className="w-5 h-5 text-gray-900" />

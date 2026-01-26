@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import {
@@ -14,8 +14,6 @@ import {
   GraduationCap,
   Handshake,
   Mail,
-  Linkedin,
-  Twitter,
   MapPin,
   Building2,
   CheckCircle,
@@ -27,9 +25,35 @@ import {
   Zap,
   Phone,
 } from "lucide-react";
+import francis from "@/assets/images/bod/francis.png";
+import Taibat from "@/assets/images/bod/Taibat.png";
+import Ibiba from "@/assets/images/bod/Ibiba.png";
+import temilade from "@/assets/images/bod/temilade.png";
+import Joaanna from "@/assets/images/bod/Joaanna.png";
+import laolu from "@/assets/images/bod/laolu.png";
+import Aiyede from "@/assets/images/bod/Aiyede.png";
+import mary from "@/assets/images/bod/mary.png";
+import Ayodele from "@/assets/images/bod/Ayodele.png";
+import tolu from "@/assets/images/bod/tolu.png";
+import Adewumi from "@/assets/images/bod/Adewumi.png";
 
 export default function AboutPage(): React.ReactElement {
   const [activeSection, setActiveSection] = useState("story");
+
+  // Scroll to section when tab is clicked
+  useEffect(() => {
+    const element = document.getElementById(activeSection);
+    if (element) {
+      const offset = 150;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  }, [activeSection]);
 
   // Core Values
   const coreValues = [
@@ -77,155 +101,171 @@ export default function AboutPage(): React.ReactElement {
     },
   ];
 
-  // Leadership Team
-  const leadershipTeam = [
+  // Board of Directors - Updated with actual members
+  const boardOfDirectors = [
     {
-      name: "Dr. Chidinma Okafor",
-      role: "Founder & Executive Director",
-      image: null,
-      bio: "PhD in Development Studies with 15+ years experience in African higher education. Passionate about empowering the next generation of African scholars.",
+      name: "Prof. Francis Egbokhare",
+      role: "Board Member",
+      image: francis,
+      bio: "Distinguished Nigerian academic and linguist, Professor of Linguistics and former Dean of the Faculty of Arts at the University of Lagos. Served as Vice-Chancellor of the University of Benin (2010-2020), championing institutional reforms and expanded research initiatives.",
+      expertise: ["Linguistics", "Language Policy", "Educational Leadership"],
+      affiliation: "University of Lagos",
+    },
+    {
+      name: "Dr. Temilade Sesan",
+      role: "Board Member",
+      image: temilade,
+      bio: "Sociologist (PhD Sociology and Social Policy, University of Nottingham) with research expertise in sustainable cities, energy access, agriculture and social protection. Works across sectors to identify pathways to greater inclusion of marginalized groups.",
       expertise: [
-        "Research Methodology",
-        "Academic Mentorship",
-        "Development Studies",
+        "International Development",
+        "Social Protection",
+        "Sustainable Cities",
       ],
-      contact: {
-        email: "c.okafor@graduateresearchclinic.org",
-        linkedin: "#",
-        twitter: "#",
-      },
+      affiliation: "University of Ibadan",
     },
     {
-      name: "Prof. Kwame Asante",
-      role: "Director of Research & Partnerships",
-      image: null,
-      bio: "Former Dean of Graduate Studies with extensive experience in international research collaboration and grant management.",
+      name: "Mary Omoyeme Alheri Victor-Magaji",
+      role: "Board Member",
+      image: mary,
+      bio: "Legal practitioner, human resource professional, and humanitarian committed to advancing the rights of women, youth, children, and persons with disabilities. Global Secretary of the Network of Women with Disabilities.",
+      expertise: ["Human Rights Law", "Disability Rights", "Human Resources"],
+      affiliation: "MAVIC Impact Foundation",
+    },
+    {
+      name: "Prof. Taibat Lawanson",
+      role: "Board Member",
+      image: Taibat,
+      bio: "Leading urban planner and heritage scholar, Leverhulme Professor of Planning and Heritage at the University of Liverpool, UK. Global Fellow at the Peace Research Institute Oslo and Vice President of the African Planners Institute.",
       expertise: [
-        "Research Partnerships",
-        "Grantsmanship",
-        "Higher Education Policy",
+        "Urban Planning",
+        "Heritage Studies",
+        "Environmental Justice",
       ],
-      contact: {
-        email: "k.asante@graduateresearchclinic.org",
-        linkedin: "#",
-        twitter: "#",
-      },
+      affiliation: "University of Liverpool",
     },
     {
-      name: "Dr. Amina Ibrahim",
-      role: "Director of Capacity Building",
-      image: null,
-      bio: "Educational psychologist specializing in doctoral training, academic writing, and mental health support for graduate students.",
-      expertise: ["Academic Writing", "Mental Health", "Doctoral Training"],
-      contact: {
-        email: "a.ibrahim@graduateresearchclinic.org",
-        linkedin: "#",
-        twitter: "#",
-      },
+      name: "Segun Ayodele",
+      role: "Board Member",
+      image: Ayodele,
+      bio: "Board member with expertise in organizational development and research coordination.",
+      expertise: ["Organizational Development", "Research Coordination"],
+      affiliation: "Graduate Research Clinic",
     },
     {
-      name: "Mr. Oluwaseun Adeyemi",
-      role: "Head of Programs & Operations",
-      image: null,
-      bio: "Project management specialist with a track record of delivering impactful programs across 15 African countries.",
-      expertise: ["Program Management", "Operations", "Impact Assessment"],
-      contact: {
-        email: "o.adeyemi@graduateresearchclinic.org",
-        linkedin: "#",
-        twitter: "#",
-      },
+      name: "Joanna Adewunmi",
+      role: "Board Member",
+      image: Joaanna,
+      bio: "Doctoral candidate in the School of Information Sciences at the University of Illinois Urbana-Champaign. Research explores the intersection of information technology, information behavior, race, and gender, with focus on women in STEM.",
+      expertise: ["Information Sciences", "Gender Studies", "STEM Equity"],
+      affiliation: "University of Illinois Urbana-Champaign",
+    },
+    {
+      name: "Toluwalase Adewunmi",
+      role: "Board Member",
+      image: tolu,
+      bio: "Student at the University of Ibadan with strong emphasis on volunteerism, leadership, and community engagement. Millennium Fellow Class of 2025 and participant in the African Leadership Programme.",
+      expertise: ["Youth Leadership", "Community Engagement", "Volunteerism"],
+      affiliation: "University of Ibadan",
+    },
+    {
+      name: "Prof. Remi Aiyede",
+      role: "Board Member",
+      image: Aiyede,
+      bio: "Prominent Nigerian political scientist and governance expert, Professor of Political Institutions, Governance, and Public Policy at the University of Ibadan. Fellow of the Pan-African Scientific Research Council.",
+      expertise: ["Political Science", "Governance", "Public Policy"],
+      affiliation: "University of Ibadan",
+    },
+    {
+      name: "Olaoluwa Oluwagbenga Aladejana",
+      role: "Board Member",
+      image: laolu,
+      bio: "Seasoned technology expert with nearly two decades of experience in urban mobility and government digital transformation. Co-founder and Chief Technology Officer of Zenolynk Technology Limited.",
+      expertise: [
+        "Technology Leadership",
+        "Urban Mobility",
+        "Digital Transformation",
+      ],
+      affiliation: "Zenolynk Technology Limited",
+    },
+    {
+      name: "Ibiba Odili",
+      role: "Board Member",
+      image: Ibiba,
+      bio: "Retired Assistant Commander General of Narcotics from NDLEA. Founder/CEO of Phenomenal Strides Foundation promoting family and youth empowerment. UNODC-certified Master Trainer and author of 'Game Changing Parenting'.",
+      expertise: [
+        "Drug Prevention",
+        "Youth Development",
+        "Community Resilience",
+      ],
+      affiliation: "Phenomenal Strides Foundation",
+    },
+    {
+      name: "Oluwatobiloba Adewunmi",
+      role: "Board Member",
+      image: Adewumi,
+      bio: "Doctoral candidate at the Center for African Studies, University of Illinois Urbana-Champaign. Research focuses on climate change politics in post-1960 Lagos, urban political ecology, and sustainable development.",
+      expertise: [
+        "Climate Politics",
+        "Urban Ecology",
+        "Sustainable Development",
+      ],
+      affiliation: "University of Illinois Urbana-Champaign",
     },
   ];
 
-  // Advisory Board
-  const advisoryBoard = [
-    {
-      name: "Prof. Fatima Nkrumah",
-      title: "Board Chair",
-      affiliation: "University of Ghana",
-      expertise: "Political Science & Governance",
-      image: null,
-    },
-    {
-      name: "Dr. Thierry Kamau",
-      title: "Board Member",
-      affiliation: "African Union Commission",
-      expertise: "Research Policy & Innovation",
-      image: null,
-    },
-    {
-      name: "Prof. Zainab Alkali",
-      title: "Board Member",
-      affiliation: "Ahmadu Bello University",
-      expertise: "Gender Studies & Development",
-      image: null,
-    },
-    {
-      name: "Dr. Jean-Baptiste Ngoma",
-      title: "Board Member",
-      affiliation: "Independent Scholar & Consultant",
-      expertise: "Public Health & Epidemiology",
-      image: null,
-    },
-    {
-      name: "Prof. Naledi Mokoena",
-      title: "Board Member",
-      affiliation: "University of Cape Town",
-      expertise: "Economics & Public Policy",
-      image: null,
-    },
-    {
-      name: "Dr. Ahmed Hassan",
-      title: "Board Member",
-      affiliation: "African Development Bank",
-      expertise: "Infrastructure & Development Finance",
-      image: null,
-    },
-  ];
-
-  // Strategic Partners
+  // Strategic Partners - Updated with actual partners
   const strategicPartners = [
     {
-      name: "African Research Universities Alliance (ARUA)",
-      type: "Academic Network",
-      partnership: "Research Collaboration & Knowledge Exchange",
-      since: "2022",
-      logo: null,
+      name: "SHRIN",
+      fullName: "Slum and Rural Health Initiative",
+      type: "Health Organization",
+      description:
+        "Partnering to improve health outcomes in underserved communities",
     },
     {
-      name: "Pan-African University",
+      name: "NAL",
+      fullName: "Nigerian Academy of Letters",
+      type: "Academic Institution",
+      description: "Collaboration on literary research and academic excellence",
+    },
+    {
+      name: "NIIA",
+      fullName: "Nigerian Institute of International Affairs",
+      type: "Research Institute",
+      description:
+        "Joint research on international relations and policy analysis",
+    },
+    {
+      name: "ASLI",
+      fullName: "African Space Leadership Institute",
+      type: "Space & Technology",
+      description:
+        "Advancing space science research and leadership development",
+    },
+    {
+      name: "DiasporaNG",
+      fullName: "DiasporaNG",
+      type: "Diaspora Network",
+      description: "Connecting African diaspora scholars and professionals",
+    },
+    {
+      name: "HelpMum Africa",
+      fullName: "HelpMum Africa",
+      type: "NGO",
+      description:
+        "Supporting maternal health and women's empowerment initiatives",
+    },
+    {
+      name: "Duke of Shomolu Foundation",
+      fullName: "Duke of Shomolu Foundation",
+      type: "Foundation",
+      description: "Community development and educational advancement programs",
+    },
+    {
+      name: "Achievers University, Owo",
+      fullName: "Achievers University, Owo",
       type: "Educational Institution",
-      partnership: "Joint Doctoral Programs & Workshops",
-      since: "2021",
-      logo: null,
-    },
-    {
-      name: "African Academy of Sciences",
-      type: "Scientific Organization",
-      partnership: "Research Grants & Capacity Building",
-      since: "2022",
-      logo: null,
-    },
-    {
-      name: "Gates Foundation Africa",
-      type: "Philanthropic Organization",
-      partnership: "Funding for Health & Development Research",
-      since: "2023",
-      logo: null,
-    },
-    {
-      name: "African Development Bank",
-      type: "Financial Institution",
-      partnership: "Economic Research & Policy Analysis",
-      since: "2023",
-      logo: null,
-    },
-    {
-      name: "Council for the Development of Social Science Research in Africa (CODESRIA)",
-      type: "Research Network",
-      partnership: "Social Sciences Research & Publishing",
-      since: "2020",
-      logo: null,
+      description: "Academic collaboration and capacity building initiatives",
     },
   ];
 
@@ -303,7 +343,7 @@ export default function AboutPage(): React.ReactElement {
   ];
 
   return (
-    <div className="bg-linear-to-b from-purple-50 to-white min-h-screen font-montserrat">
+    <div className="bg-linear-to-b from-purple-50 to-white min-h-screen">
       <Header />
 
       {/* Hero Section */}
@@ -342,15 +382,14 @@ export default function AboutPage(): React.ReactElement {
               { id: "story", label: "Our Story" },
               { id: "vision", label: "Vision & Mission" },
               { id: "values", label: "Core Values" },
-              { id: "team", label: "Leadership Team" },
-              { id: "board", label: "Advisory Board" },
+              { id: "board", label: "Board of Directors" },
               { id: "partners", label: "Partners" },
               { id: "impact", label: "Our Impact" },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveSection(tab.id)}
-                className={`px-6 py-2 cursor-pointer rounded-full font-medium transition-all ${
+                className={`px-6 py-2 rounded-full font-medium transition-all ${
                   activeSection === tab.id
                     ? "bg-[#95111c] text-white shadow-lg"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -366,7 +405,7 @@ export default function AboutPage(): React.ReactElement {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Our Story */}
-        <section className="mb-20">
+        <section id="story" className="mb-32 scroll-mt-32">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl font-bold text-[#95111c] mb-8 flex items-center gap-3">
               <BookOpen className="w-10 h-10" />
@@ -424,16 +463,16 @@ export default function AboutPage(): React.ReactElement {
         </section>
 
         {/* Vision & Mission */}
-        <section className="mb-20">
+        <section id="vision" className="mb-32 scroll-mt-32">
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Vision */}
-            <div className="bg-linear-to-br from-[#95111c] to-[#7a0e16] rounded-2xl shadow-2xl p-8 text-white">
+            <div className="bg-linear-to-br from-[#95111c] to-[#7a0e16] rounded-2xl shadow-2xl p-8 text-white h-full flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <Eye className="w-10 h-10 text-yellow-400" />
                 <h2 className="text-3xl font-bold">Our Vision</h2>
               </div>
 
-              <p className="text-white/95 leading-relaxed text-lg">
+              <p className="text-white/95 leading-relaxed text-lg grow">
                 To be one of the topmost African non-profit organizations that
                 fosters innovative research and collaboration across
                 disciplines, generations, and geographical boundaries,
@@ -445,13 +484,13 @@ export default function AboutPage(): React.ReactElement {
             </div>
 
             {/* Mission */}
-            <div className="bg-linear-to-br from-purple-600 to-purple-700 rounded-2xl shadow-2xl p-8 text-white">
+            <div className="bg-linear-to-br from-purple-600 to-purple-700 rounded-2xl shadow-2xl p-8 text-white h-full flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-10 h-10 text-yellow-400" />
                 <h2 className="text-3xl font-bold">Our Mission</h2>
               </div>
 
-              <p className="text-white/95 leading-relaxed text-lg">
+              <p className="text-white/95 leading-relaxed text-lg mb-6 grow">
                 To create a powerful support system/network at all levels of the
                 academic value chain, especially for (under)graduate students,
                 early career scholars and budding acadepreneurs from various
@@ -461,7 +500,7 @@ export default function AboutPage(): React.ReactElement {
                 outside the academia for knowledge transfer and co-production.
               </p>
 
-              <div className="mt-6 pt-6 border-t border-white/20">
+              <div className="pt-6 border-t border-white/20">
                 <p className="text-sm text-white/90">
                   <strong>Ultimate Purpose:</strong> Fostering collaboration for
                   finding solutions to development challenges in Africa and her
@@ -475,7 +514,7 @@ export default function AboutPage(): React.ReactElement {
         </section>
 
         {/* Core Values */}
-        <section className="mb-20">
+        <section id="values" className="mb-32 scroll-mt-32">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-[#95111c] mb-4">
               Our Core Values
@@ -490,10 +529,10 @@ export default function AboutPage(): React.ReactElement {
             {coreValues.map((value, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all p-8 border border-gray-100 group"
+                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all p-8 border border-gray-100 group h-full flex flex-col"
               >
                 <div
-                  className={`inline-flex p-4 bg-linear-to-br ${value.color} rounded-xl mb-6 group-hover:scale-110 transition-transform`}
+                  className={`inline-flex p-4 bg-linear-to-br ${value.color} rounded-xl mb-6 group-hover:scale-110 transition-transform self-start`}
                 >
                   <value.icon className="w-8 h-8 text-white" />
                 </div>
@@ -502,17 +541,15 @@ export default function AboutPage(): React.ReactElement {
                   {value.title}
                 </h3>
 
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed grow">
                   {value.description}
                 </p>
               </div>
             ))}
           </div>
-        </section>
 
-        {/* Priority Areas */}
-        <section className="mb-20">
-          <div className="bg-linear-to-br from-blue-50 to-purple-50 rounded-2xl p-8 lg:p-12 border border-blue-100">
+          {/* Priority Areas */}
+          <div className="bg-linear-to-br from-blue-50 to-purple-50 rounded-2xl p-8 lg:p-12 border border-blue-100 mt-16">
             <h2 className="text-3xl font-bold text-[#95111c] mb-8 flex items-center gap-3">
               <Target className="w-8 h-8" />
               Priority Areas of Intervention
@@ -532,131 +569,82 @@ export default function AboutPage(): React.ReactElement {
           </div>
         </section>
 
-        {/* Leadership Team */}
-        <section className="mb-20">
+        {/* Board of Directors */}
+        <section id="board" className="mb-32 scroll-mt-32">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-[#95111c] mb-4">
-              Our Leadership Team
+              Board of Directors
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Dedicated professionals with deep expertise in African higher
-              education and research
+              Distinguished scholars and practitioners providing strategic
+              guidance and leadership
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            {leadershipTeam.map((member, idx) => (
+            {boardOfDirectors.map((member, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all p-8 border border-gray-100"
+                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all overflow-hidden border border-gray-100 h-full flex flex-col"
               >
-                <div className="flex items-start gap-6 mb-6">
-                  <div className="w-24 h-24 bg-linear-to-br from-[#95111c] to-[#7a0e16] rounded-full flex items-center justify-center text-white text-2xl font-bold shrink-0">
-                    {member.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </div>
+                {/* Header with Image */}
+                <div className="bg-linear-to-br from-[#95111c] to-[#7a0e16] p-6">
+                  <div className="flex items-center gap-6">
+                    <div className="w-28 h-28 bg-white rounded-xl overflow-hidden shrink-0">
+                      {member.image ? (
+                        <img
+                          src={`${member.image}`}
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-[#95111c] text-3xl font-bold">
+                          <span>
+                            {member.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
 
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                      {member.name}
-                    </h3>
-                    <p className="text-lg text-[#95111c] font-semibold mb-4">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  {member.bio}
-                </p>
-
-                <div className="mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-3">
-                    Areas of Expertise:
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {member.expertise.map((exp, eidx) => (
-                      <span
-                        key={eidx}
-                        className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium"
-                      >
-                        {exp}
-                      </span>
-                    ))}
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-white mb-2">
+                        {member.name}
+                      </h3>
+                      <p className="text-yellow-400 font-semibold mb-1">
+                        {member.role}
+                      </p>
+                      <p className="text-white/80 text-sm">
+                        {member.affiliation}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
-                  <a
-                    href={`mailto:${member.contact.email}`}
-                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#95111c] transition-colors"
-                  >
-                    <Mail className="w-4 h-4" />
-                    Email
-                  </a>
-                  <a
-                    href={member.contact.linkedin}
-                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#95111c] transition-colors"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                    LinkedIn
-                  </a>
-                  <a
-                    href={member.contact.twitter}
-                    className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#95111c] transition-colors"
-                  >
-                    <Twitter className="w-4 h-4" />
-                    Twitter
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Advisory Board */}
-        <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#95111c] mb-4">
-              Advisory Board
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Distinguished scholars and practitioners providing strategic
-              guidance and oversight
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {advisoryBoard.map((member, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all p-6 border border-gray-100 text-center"
-              >
-                <div className="w-20 h-20 bg-linear-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">
-                  {member.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-
-                <h3 className="text-xl font-bold text-gray-900 mb-1">
-                  {member.name}
-                </h3>
-
-                <p className="text-sm text-[#95111c] font-semibold mb-3">
-                  {member.title}
-                </p>
-
-                <p className="text-sm text-gray-600 mb-3">
-                  {member.affiliation}
-                </p>
-
-                <div className="pt-4 border-t border-gray-200">
-                  <p className="text-xs text-gray-700">
-                    <strong>Expertise:</strong> {member.expertise}
+                {/* Content */}
+                <div className="p-6 grow flex flex-col">
+                  <p className="text-gray-700 leading-relaxed mb-6 grow">
+                    {member.bio}
                   </p>
+
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                      <Award className="w-4 h-4 text-[#95111c]" />
+                      Areas of Expertise
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {member.expertise.map((exp, eidx) => (
+                        <span
+                          key={eidx}
+                          className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium"
+                        >
+                          {exp}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -664,7 +652,7 @@ export default function AboutPage(): React.ReactElement {
         </section>
 
         {/* Strategic Partners */}
-        <section className="mb-20">
+        <section id="partners" className="mb-32 scroll-mt-32">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-[#95111c] mb-4">
               Our Strategic Partners
@@ -675,41 +663,46 @@ export default function AboutPage(): React.ReactElement {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {strategicPartners.map((partner, idx) => (
               <div
                 key={idx}
-                className="bg-linear-to-br from-white to-purple-50 rounded-xl shadow-lg hover:shadow-xl transition-all p-6 border border-purple-100"
+                className="bg-linear-to-br from-white to-purple-50 rounded-xl shadow-md hover:shadow-xl transition-all p-6 border border-purple-100 text-center flex flex-col"
               >
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-16 h-16 bg-[#95111c] rounded-lg flex items-center justify-center shrink-0">
-                    <Building2 className="w-8 h-8 text-white" />
-                  </div>
-
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {partner.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
-                        {partner.type}
-                      </span>
-                      <span className="text-xs text-gray-600">
-                        Since {partner.since}
-                      </span>
-                    </div>
-                  </div>
+                {/* Icon */}
+                <div className="w-20 h-20 bg-[#95111c] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Building2 className="w-10 h-10 text-white" />
                 </div>
 
-                <p className="text-sm text-gray-700">
-                  <strong>Partnership Focus:</strong> {partner.partnership}
+                {/* Partner Name - Fixed height */}
+                <h3 className="font-bold text-2xl text-gray-900 min-h-12 flex items-center justify-center">
+                  {partner.name}
+                </h3>
+
+                {/* Full Name - Fixed height */}
+                <p className="text-sm text-gray-600 mb-3 min-h-10 flex items-center justify-center">
+                  {partner.fullName}
                 </p>
+
+                {/* Type Badge */}
+                <div className="mb-4">
+                  <span className="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
+                    {partner.type}
+                  </span>
+                </div>
+
+                {/* Description - Flexible space, pushes to bottom */}
+                <div className="pt-3 border-t border-purple-200 mt-auto">
+                  <p className="text-xs text-gray-700 leading-relaxed">
+                    {partner.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
 
           <div className="text-center mt-12">
-            <button className="cursor-pointer bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2 mx-auto shadow-lg hover:scale-105">
+            <button className="bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-8 py-4 rounded-xl transition-all flex items-center gap-2 mx-auto shadow-lg hover:scale-105">
               Become a Partner
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -717,7 +710,7 @@ export default function AboutPage(): React.ReactElement {
         </section>
 
         {/* Our Impact */}
-        <section className="mb-20">
+        <section id="impact" className="mb-20 scroll-mt-32">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-[#95111c] mb-4">
               Our Impact in Numbers
@@ -792,15 +785,15 @@ export default function AboutPage(): React.ReactElement {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="cursor-pointer bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105">
+            <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-105">
               <GraduationCap className="w-5 h-5" />
               Join as a Scholar
             </button>
-            <button className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
+            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
               <Users className="w-5 h-5" />
               Become a Mentor
             </button>
-            <button className="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
+            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-8 py-4 rounded-xl transition-all border-2 border-white/30 flex items-center justify-center gap-2">
               <Handshake className="w-5 h-5" />
               Partner With Us
             </button>
