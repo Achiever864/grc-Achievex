@@ -450,7 +450,7 @@ const Newsletter = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/newsletter/subscribe",
+        `${import.meta.env.VITE_API_URL}/newsletter/subscribe`,
         {
           mode: "cors",
           method: "POST",
