@@ -104,7 +104,7 @@ class EmailService {
 
       const mailOptions = {
         from: `"${config.senderName}" <${config.senderEmail}>`,
-        to: "tiossdav@gmail.com", // Your admin email
+        to: "tiossdav@gmail.acom", // Your admin email
         subject: "🎉 New Newsletter Subscription - GRC",
         html: `
         <!DOCTYPE html>
@@ -185,7 +185,7 @@ class EmailService {
       };
 
       const info = await transporter.sendMail(mailOptions);
-      console.log("✅ Admin notification sent:", info.messageId);
+      console.log(`✅ Admin notification sent to: ${mailOptions.to}`);
       return { success: true };
     } catch (error) {
       console.error("❌ Error sending admin notification:", error);
