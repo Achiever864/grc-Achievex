@@ -104,7 +104,7 @@ class EmailService {
 
       const mailOptions = {
         from: `"${config.senderName}" <${config.senderEmail}>`,
-        to: "graduateresearchclinic@gmail.com", // Your admin email
+        to: "tiossdav@gmail.com", // Your admin email
         subject: "🎉 New Newsletter Subscription - GRC",
         html: `
         <!DOCTYPE html>
