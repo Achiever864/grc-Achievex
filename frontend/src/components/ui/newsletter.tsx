@@ -75,7 +75,7 @@
 
 //     try {
 //       const response = await fetch(
-//         "http://localhost:5001/api/newsletter/subscribe",
+//         "http://localhost:5000/api/newsletter/subscribe",
 //         {
 //           method: "POST",
 //           headers: {
