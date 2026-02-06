@@ -8,6 +8,7 @@ import PartnerPortal from "./pages/partner-portal";
 import FindSupport from "./pages/find-support";
 import AboutPage from "./pages/about";
 import Newsletter from "./components/ui/newsletter";
+import ScrollToTop from "./components/ScrollToTop";
 
 function Router() {
   return (
@@ -29,6 +30,7 @@ function Router() {
 export default function App() {
   return (
     <>
+      <ScrollToTop />
       <Router />
     </>
   );

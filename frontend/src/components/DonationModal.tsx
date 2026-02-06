@@ -1,5 +1,11 @@
 import { useState, useEffect, startTransition } from "react";
 import {
+  sanitizeInput,
+  sanitizeName,
+  isValidEmail,
+  isValidAmount,
+} from "@/utils/sanitize";
+import {
   X,
   Heart,
   CreditCard,
@@ -88,9 +94,48 @@ export const DonationModal = ({
   };
 
   const handleCustomAmountChange = (value: string) => {
+    // Only allow digits
     const numValue = value.replace(/[^\d]/g, "");
+    const amount = Number(numValue);
+
+    // Validate amount range
+    if (amount > 100000000) {
+      alert("Amount cannot exceed ₦100,000,000");
+      return;
+    }
+
     setCustomAmount(numValue);
     setSelectedAmount(null);
+  };
+
+  const handleEmailChange = (value: string) => {
+    const sanitized = sanitizeInput(value);
+    setDonorEmail(sanitized);
+  };
+
+  const handleNameChange = (value: string) => {
+    const sanitized = sanitizeName(value);
+    setDonorName(sanitized);
+  };
+
+  // Update validation before payment
+  const validateBeforePayment = () => {
+    if (!donorName || donorName.length < 2) {
+      alert("Please enter a valid name");
+      return false;
+    }
+
+    if (!isValidEmail(donorEmail)) {
+      alert("Please enter a valid email address");
+      return false;
+    }
+
+    if (!isValidAmount(getCurrentAmount())) {
+      alert("Please enter a valid donation amount");
+      return false;
+    }
+
+    return true;
   };
 
   const getCurrentAmount = () => {
@@ -104,6 +149,8 @@ export const DonationModal = ({
   };
 
   const handlePagaPayment = async () => {
+    if (!validateBeforePayment()) return;
+
     const amount = getCurrentAmount();
 
     if (!donorEmail || !donorName) {
@@ -135,7 +182,7 @@ export const DonationModal = ({
 
       if (data.success && data.authorization_url) {
         // Redirect to Paga payment page
-        window.location.href = data.authorization_url;
+        window.location.assign(data.authorization_url);
       } else {
         console.error("Payment initialization failed");
         setStep("method");
@@ -355,7 +402,7 @@ export const DonationModal = ({
                     <input
                       type="text"
                       value={donorName}
-                      onChange={(e) => setDonorName(e.target.value)}
+                      onChange={(e) => handleNameChange(e.target.value)}
                       placeholder="Enter your name"
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
                     />
@@ -367,7 +414,7 @@ export const DonationModal = ({
                     <input
                       type="email"
                       value={donorEmail}
-                      onChange={(e) => setDonorEmail(e.target.value)}
+                      onChange={(e) => handleEmailChange(e.target.value)}
                       placeholder="your.email@example.com"
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
                     />
