@@ -26,6 +26,7 @@ import { useLocation } from "wouter";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { usePageLoader } from "@/hooks/usePageLoader";
 import { PageLoader } from "@/components/loaders/PageLoader";
+import { SEO } from "@/components/seo/SEO";
 
 const Home = () => {
   const { isLoading } = usePageLoader(1200); // 1.2 seconds minimum
@@ -202,6 +203,12 @@ const Home = () => {
 
   return (
     <>
+      <SEO
+        title="Graduate Research Clinic - Home"
+        description="Empowering African scholars through research collaboration, mentorship, and funding opportunities"
+        keywords="African scholars, research network, academic funding, graduate studies, PhD programs Africa"
+        url="https://graduateresearchclinic.org"
+      />
       <PageLoader
         loading={isLoading}
         message="Loading Graduate Research Clinic..."
