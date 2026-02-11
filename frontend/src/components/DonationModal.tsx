@@ -15,27 +15,27 @@ import {
   Check,
   ArrowLeft,
   Wallet,
+  Phone,
+  User,
+  Mail,
+  ArrowRight,
 } from "lucide-react";
 import { API_ENDPOINTS } from "@/config/api";
-
-const TbCurrencyNaira = () => (
-  <svg
-    stroke="currentColor"
-    fill="currentColor"
-    strokeWidth="0"
-    viewBox="0 0 24 24"
-    height="1em"
-    width="1em"
-  >
-    <path fill="none" d="M0 0h24v24H0z"></path>
-    <path d="M7 15h2v2H7zm0-4h2v2H7zm0-4h2v2H7zm10 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2zM5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
-  </svg>
-);
+import { TbCurrencyNaira } from "react-icons/tb";
 
 interface DonationModalProps {
   isOpen: boolean;
   onClose: () => void;
   preselectedAmount?: number | null;
+}
+
+interface PagaData {
+  reference: string;
+  paymentUrl?: string;
+  accountNumber?: string; // FIXED: Added missing property
+  amount: number;
+  currency: string;
+  status?: string;
 }
 
 export const DonationModal = ({
@@ -49,14 +49,22 @@ export const DonationModal = ({
     "paga" | "bank" | "paypal" | null
   >(null);
   const [step, setStep] = useState<
-    "amount" | "method" | "processing" | "success"
+    | "amount"
+    | "method"
+    | "processing"
+    | "paga-instructions"
+    | "success"
+    | "error"
   >("amount");
   const [copiedAccount, setCopiedAccount] = useState<string | null>(null);
   const [donationReference] = useState(
-    () => `DON-${Date.now().toString().slice(-8)}`,
+    () => `GRC-DON-${Date.now().toString().slice(-8)}`,
   );
   const [donorEmail, setDonorEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [donorName, setDonorName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [pagaData, setPagaData] = useState<PagaData | null>(null);
 
   const formatAmount = (amount: number) =>
     new Intl.NumberFormat("en-NG").format(amount);
@@ -76,12 +84,12 @@ export const DonationModal = ({
         startTransition(() => {
           setSelectedAmount(preselectedAmount);
           setCustomAmount("");
-          setStep("method"); // Skip directly to payment method
+          setStep("method");
           setPaymentMethod(null);
         });
       } else {
         startTransition(() => {
-          setStep("amount"); // Start from amount selection
+          setStep("amount");
           setPaymentMethod(null);
         });
       }
@@ -94,11 +102,9 @@ export const DonationModal = ({
   };
 
   const handleCustomAmountChange = (value: string) => {
-    // Only allow digits
     const numValue = value.replace(/[^\d]/g, "");
     const amount = Number(numValue);
 
-    // Validate amount range
     if (amount > 100000000) {
       alert("Amount cannot exceed ₦100,000,000");
       return;
@@ -118,23 +124,35 @@ export const DonationModal = ({
     setDonorName(sanitized);
   };
 
-  // Update validation before payment
+  const handlePhoneChange = (value: string) => {
+    const sanitized = value.replace(/[^\d]/g, "").slice(0, 11);
+    setPhoneNumber(sanitized);
+  };
+
   const validateBeforePayment = () => {
     if (!donorName || donorName.length < 2) {
-      alert("Please enter a valid name");
+      setErrorMessage("Please enter a valid name");
       return false;
     }
 
     if (!isValidEmail(donorEmail)) {
-      alert("Please enter a valid email address");
+      setErrorMessage("Please enter a valid email address");
       return false;
     }
 
     if (!isValidAmount(getCurrentAmount())) {
-      alert("Please enter a valid donation amount");
+      setErrorMessage("Please enter a valid donation amount");
       return false;
     }
 
+    if (paymentMethod === "paga") {
+      if (!phoneNumber || phoneNumber.length < 10) {
+        setErrorMessage("Please enter a valid phone number (10-11 digits)");
+        return false;
+      }
+    }
+
+    setErrorMessage("");
     return true;
   };
 
@@ -149,51 +167,45 @@ export const DonationModal = ({
   };
 
   const handlePagaPayment = async () => {
-    if (!validateBeforePayment()) return;
-
-    const amount = getCurrentAmount();
-
-    if (!donorEmail || !donorName) {
-      alert("Please provide your name and email");
+    if (!validateBeforePayment()) {
       return;
     }
 
     setStep("processing");
+    setErrorMessage("");
 
     try {
-      // PAGA PAYMENT INTEGRATION
-      // Step 1: Call your backend to initialize the payment
       const response = await fetch(API_ENDPOINTS.DONATION_INITIALIZE_PAGA, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount: amount,
+          amount: getCurrentAmount(),
           email: donorEmail,
-          name: donorName,
-          reference: donationReference,
-          currency: "NGN",
-          callback_url: window.location.origin + "/donation-callback",
+          phoneNumber: phoneNumber,
+          donorName: donorName,
         }),
       });
 
       const data = await response.json();
 
-      if (data.success && data.authorization_url) {
-        // Redirect to Paga payment page
-        window.location.assign(data.authorization_url);
+      if (data.success) {
+        setPagaData(data.data);
+
+        // If there's a payment URL, you can either redirect or show instructions
+        // For now, we'll show instructions
+        setStep("paga-instructions");
       } else {
-        console.error("Payment initialization failed");
-        setStep("method");
-        alert(
-          data.message || "Unable to initialize payment. Please try again.",
-        );
+        setErrorMessage(data.message || "Payment initialization failed");
+        setStep("error");
       }
     } catch (error) {
-      console.error("Payment error:", error);
-      setStep("method");
-      alert("Network error. Please try again.");
+      console.error("Paga payment error:", error);
+      setErrorMessage(
+        "Network error. Please check your connection and try again.",
+      );
+      setStep("error");
     }
   };
 
@@ -201,7 +213,6 @@ export const DonationModal = ({
     const amount = getCurrentAmount();
     setStep("processing");
 
-    // PayPal integration
     setTimeout(() => {
       window.open(
         `https://www.paypal.com/donate?hosted_button_id=YOUR_PAYPAL_BUTTON_ID&amount=${amount}&currency_code=NGN`,
@@ -212,12 +223,12 @@ export const DonationModal = ({
   };
 
   const handleBankTransferConfirm = async () => {
-    if (!donorEmail || !donorName) {
-      alert("Please provide your name and email for confirmation");
+    if (!validateBeforePayment()) {
       return;
     }
 
     setStep("processing");
+    setErrorMessage("");
 
     try {
       const response = await fetch(API_ENDPOINTS.DONATION_BANK_TRANSFER, {
@@ -228,7 +239,7 @@ export const DonationModal = ({
         body: JSON.stringify({
           amount: getCurrentAmount(),
           email: donorEmail,
-          name: donorName,
+          donorName: donorName,
           reference: donationReference,
         }),
       });
@@ -238,13 +249,13 @@ export const DonationModal = ({
       if (data.success) {
         setStep("success");
       } else {
-        setStep("method");
-        alert(data.message || "Failed to record transfer");
+        setErrorMessage(data.message || "Failed to record transfer");
+        setStep("error");
       }
     } catch (error) {
       console.error("Bank transfer error:", error);
-      setStep("method");
-      alert("Network error. Please try again.");
+      setErrorMessage("Network error. Please try again.");
+      setStep("error");
     }
   };
 
@@ -255,6 +266,9 @@ export const DonationModal = ({
     setPaymentMethod(null);
     setDonorEmail("");
     setDonorName("");
+    setPhoneNumber("");
+    setErrorMessage("");
+    setPagaData(null);
   };
 
   const handleClose = () => {
@@ -268,6 +282,9 @@ export const DonationModal = ({
       setPaymentMethod(null);
     } else if (step === "method" && preselectedAmount) {
       handleClose();
+    } else if (step === "error" || step === "paga-instructions") {
+      setStep("method");
+      setErrorMessage("");
     }
   };
 
@@ -284,7 +301,7 @@ export const DonationModal = ({
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
         <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden pointer-events-auto animate-slideUp">
-          {/* Header */}
+          {/* Header - FIXED: Changed bg-linear-to-r to bg-linear-to-r */}
           <div className="bg-linear-to-r from-[#95111c] to-[#7a0e16] p-6 text-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -332,7 +349,7 @@ export const DonationModal = ({
                       }`}
                     >
                       <div className="flex items-center justify-center gap-1 text-2xl font-bold">
-                        <TbCurrencyNaira />
+                        <TbCurrencyNaira className="w-6 h-6 sm:w-7 sm:h-7 " />
                         {formatAmount(amount)}
                       </div>
                     </button>
@@ -382,43 +399,87 @@ export const DonationModal = ({
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
                     Choose Payment Method
                   </h3>
-                  <div className="flex items-center gap-2 text-[#95111c] font-semibold">
-                    <TbCurrencyNaira />
+                  <div className="flex items-center gap-1 text-[#95111c] font-semibold">
+                    <TbCurrencyNaira className="w-5 h-5 sm:w-6 sm:h-6 " />
                     <span className="text-2xl">
                       {formatAmount(getCurrentAmount())}
                     </span>
                   </div>
                 </div>
 
+                {/* Error Message */}
+                {errorMessage && (
+                  <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-start gap-3">
+                    <X className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                    <p className="text-sm text-red-800">{errorMessage}</p>
+                  </div>
+                )}
+
                 {/* Donor Information */}
                 <div className="space-y-4 bg-gray-50 p-4 rounded-xl">
                   <h4 className="font-semibold text-gray-900">
                     Your Information
                   </h4>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Full Name
+                      Full Name <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="text"
-                      value={donorName}
-                      onChange={(e) => handleNameChange(e.target.value)}
-                      placeholder="Enter your name"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
-                    />
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <input
+                        type="text"
+                        value={donorName}
+                        onChange={(e) => handleNameChange(e.target.value)}
+                        placeholder="John Doe"
+                        required
+                        className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
+                      />
+                    </div>
                   </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Email Address
+                      Email Address <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="email"
-                      value={donorEmail}
-                      onChange={(e) => handleEmailChange(e.target.value)}
-                      placeholder="your.email@example.com"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
-                    />
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <input
+                        type="email"
+                        value={donorEmail}
+                        onChange={(e) => handleEmailChange(e.target.value)}
+                        placeholder="john@example.com"
+                        required
+                        className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
+                      />
+                    </div>
                   </div>
+
+                  {/* Phone number field - only show if Paga is selected */}
+                  {paymentMethod === "paga" && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number (Paga Account){" "}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <input
+                          type="tel"
+                          value={phoneNumber}
+                          onChange={(e) => handlePhoneChange(e.target.value)}
+                          placeholder="08012345678"
+                          required
+                          maxLength={11}
+                          className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#95111c] focus:outline-none"
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Enter your 11-digit Nigerian phone number registered
+                        with Paga
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Payment Methods */}
@@ -468,7 +529,7 @@ export const DonationModal = ({
                           PayPal
                         </div>
                         <div className="text-sm text-gray-600">
-                          Pay with your PayPal account
+                          For international donors
                         </div>
                       </div>
                       {paymentMethod === "paypal" && (
@@ -495,7 +556,7 @@ export const DonationModal = ({
                           Bank Transfer
                         </div>
                         <div className="text-sm text-gray-600">
-                          Direct bank transfer
+                          Direct bank transfer (Manual)
                         </div>
                       </div>
                       {paymentMethod === "bank" && (
@@ -562,7 +623,12 @@ export const DonationModal = ({
                       handleBankTransferConfirm();
                     }
                   }}
-                  disabled={!paymentMethod || !donorEmail || !donorName}
+                  disabled={
+                    !paymentMethod ||
+                    !donorEmail ||
+                    !donorName ||
+                    (paymentMethod === "paga" && !phoneNumber)
+                  }
                   className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {paymentMethod === "bank"
@@ -585,7 +651,207 @@ export const DonationModal = ({
               </div>
             )}
 
-            {/* Step 4: Success */}
+            {/* Step 4: Paga Payment Instructions */}
+            {step === "paga-instructions" && (
+              <div className="space-y-6">
+                <div>
+                  <button
+                    onClick={() => setStep("method")}
+                    className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back
+                  </button>
+                  <div className="text-center mb-6">
+                    <div className="w-20 h-20 bg-[#95111c]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Wallet className="w-10 h-10 text-[#95111c]" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                      Complete Payment on Paga
+                    </h3>
+                    <p className="text-gray-600">
+                      Follow these steps to complete your ₦
+                      {formatAmount(getCurrentAmount())} donation
+                    </p>
+                  </div>
+                </div>
+
+                {/* Payment Instructions - FIXED: Changed bg-linear-to-br to bg-linear-to-br */}
+                <div className="bg-linear-to-br from-red-50 to-orange-50 border-2 border-[#95111c]/20 rounded-xl p-6 space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-8 h-8 bg-[#95111c] text-white rounded-full flex items-center justify-center font-bold shrink-0">
+                      1
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 mb-1">
+                        Open Paga
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Open your Paga mobile app or dial <strong>*242#</strong>{" "}
+                        on your phone
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-8 h-8 bg-[#95111c] text-white rounded-full flex items-center justify-center font-bold shrink-0">
+                      2
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 mb-1">
+                        Send Money
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Select "Send Money" or "Pay Merchant"
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-8 h-8 bg-[#95111c] text-white rounded-full flex items-center justify-center font-bold shrink-0">
+                      3
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 mb-1">
+                        Enter Details
+                      </p>
+                      <div className="space-y-2 mt-2">
+                        {pagaData?.accountNumber && (
+                          <div className="bg-white p-3 rounded-lg">
+                            <div className="text-xs text-gray-600 mb-1">
+                              Account Number
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="font-mono font-bold text-[#95111c]">
+                                {pagaData.accountNumber}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  handleCopyToClipboard(
+                                    pagaData.accountNumber!,
+                                    "account",
+                                  )
+                                }
+                                className="p-1 hover:bg-gray-100 rounded"
+                              >
+                                {copiedAccount === "account" ? (
+                                  <Check className="w-4 h-4 text-green-600" />
+                                ) : (
+                                  <Copy className="w-4 h-4 text-gray-400" />
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                        <div className="bg-white p-3 rounded-lg">
+                          <div className="text-xs text-gray-600 mb-1">
+                            Merchant Name
+                          </div>
+                          <div className="font-semibold">
+                            Graduate Research Clinic
+                          </div>
+                        </div>
+                        <div className="bg-white p-3 rounded-lg">
+                          <div className="text-xs text-gray-600 mb-1">
+                            Amount
+                          </div>
+                          <div className="font-bold text-lg">
+                            ₦{formatAmount(getCurrentAmount())}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-8 h-8 bg-[#95111c] text-white rounded-full flex items-center justify-center font-bold shrink-0">
+                      4
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 mb-1">
+                        Use This Reference
+                      </p>
+                      <div className="bg-white p-3 rounded-lg mt-2">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono font-semibold text-[#95111c]">
+                            {pagaData?.reference || donationReference}
+                          </span>
+                          <button
+                            onClick={() =>
+                              handleCopyToClipboard(
+                                pagaData?.reference || donationReference,
+                                "reference",
+                              )
+                            }
+                            className="p-1 hover:bg-gray-100 rounded"
+                          >
+                            {copiedAccount === "reference" ? (
+                              <Check className="w-4 h-4 text-green-600" />
+                            ) : (
+                              <Copy className="w-4 h-4 text-gray-400" />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Alternative: Use Paga Link */}
+                {pagaData?.paymentUrl && (
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600 mb-3">Or pay online:</p>
+                    <a
+                      href={pagaData.paymentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold px-6 py-3 rounded-xl"
+                    >
+                      Open Paga Payment Page
+                      <ArrowRight className="w-5 h-5" />
+                    </a>
+                  </div>
+                )}
+
+                {/* Confirmation Button */}
+                <button
+                  onClick={() => setStep("success")}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl"
+                >
+                  I've Completed the Payment
+                </button>
+
+                <p className="text-xs text-center text-gray-600">
+                  Once you complete the payment, we'll send you a confirmation
+                  email within 24 hours.
+                </p>
+              </div>
+            )}
+
+            {/* Step 5: Error */}
+            {step === "error" && (
+              <div className="py-8 text-center space-y-6">
+                <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                  <X className="w-12 h-12 text-red-600" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    Payment Failed
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    {errorMessage || "Something went wrong. Please try again."}
+                  </p>
+                </div>
+                <button
+                  onClick={handleBackButton}
+                  className="w-full bg-[#95111c] hover:bg-[#7a0e16] text-white font-bold py-4 rounded-xl"
+                >
+                  Try Again
+                </button>
+              </div>
+            )}
+
+            {/* Step 6: Success */}
             {step === "success" && (
               <div className="py-8 text-center space-y-6">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">

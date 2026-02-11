@@ -1,65 +1,115 @@
 const axios = require("axios");
 const crypto = require("crypto");
-require("dotenv").config();
 
 class PagaService {
   constructor() {
-    this.apiKey = process.env.PAGA_API_KEY;
-    this.credential = process.env.PAGA_CREDENTIAL;
-    this.hashKey = process.env.PAGA_HASH_KEY;
-    this.publicId = process.env.PAGA_PUBLIC_ID;
+    this.principal = process.env.PAGA_PRINCIPAL;
+    this.credentials = process.env.PAGA_CREDENTIALS;
+    this.hmacKey = process.env.PAGA_HMAC_KEY;
     this.baseUrl =
       process.env.PAGA_BASE_URL || "https://beta.mypaga.com/paga-webservices";
   }
 
-  // Generate hash for authentication
-  generateHash(endpoint, requestData) {
-    const message = endpoint + JSON.stringify(requestData) + this.hashKey;
-    return crypto.createHash("sha512").update(message).digest("hex");
+  // Generate HMAC hash for request authentication
+  generateHash(requestBody) {
+    const message = JSON.stringify(requestBody);
+    return crypto
+      .createHmac("sha512", this.hmacKey)
+      .update(message)
+      .digest("hex");
   }
 
-  // Initialize payment (Money Transfer)
-  async initializePayment({ amount, reference, email, name, phone }) {
+  // Initialize payment (Register Persistent Payment Account)
+  async initializePayment({ amount, email, reference, phoneNumber }) {
     try {
-      const endpoint = "/merchant-rest/secured/onlineMerchantPay";
-
       const requestData = {
-        merchantAccount: this.publicId,
-        merchantReferenceNumber: reference,
-        amount: amount,
-        currency: "NGN",
-        merchantService: ["MERCHANT_DONATION"],
-        customerEmail: email,
-        customerPhoneNumber: phone || "",
-        customerFirstName: name.split(" ")[0] || "",
-        customerLastName: name.split(" ").slice(1).join(" ") || "",
+        referenceNumber: reference,
+        phoneNumber: phoneNumber || email, // Paga uses phone numbers
+        accountName: "Graduate Research Clinic Donation",
+        firstName: "Donor",
+        lastName: "User",
+        email: email,
+        accountReference: reference,
+        financialIdentificationNumber: this.credentials,
+        callbackUrl: `${process.env.FRONTEND_URL}/donation/verify?reference=${reference}`,
       };
 
-      const hash = this.generateHash(endpoint, requestData);
+      const hash = this.generateHash(requestData);
+
+      console.log("Paga Request:", {
+        url: `${this.baseUrl}/merchant-rest/secured/registerPersistentPaymentAccount`,
+        headers: {
+          principal: this.principal,
+          credentials: this.credentials,
+        },
+        data: requestData,
+      });
 
       const response = await axios.post(
-        `${this.baseUrl}${endpoint}`,
+        `${this.baseUrl}/merchant-rest/secured/registerPersistentPaymentAccount`,
         requestData,
         {
           headers: {
             "Content-Type": "application/json",
-            principal: this.apiKey,
-            credentials: this.credential,
+            principal: this.principal,
+            credentials: this.credentials,
             hash: hash,
           },
         },
       );
 
-      console.log("✅ Paga payment initialized:", response.data);
+      console.log("Paga Response:", response.data);
+
       return {
         success: true,
         data: response.data,
-        paymentUrl: response.data.paymentUrl || null,
-        transactionId: response.data.transactionId || null,
+        // Construct payment URL
+        paymentUrl: response.data.merchantPublicId
+          ? `https://www.mypaga.com/paga-webservices/customer-payment/${response.data.merchantPublicId}/${response.data.accountNumber}`
+          : null,
+      };
+    } catch (error) {
+      console.error("Paga initialization error:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+      });
+      throw new Error(
+        error.response?.data?.errorMessage || "Payment initialization failed",
+      );
+    }
+  }
+
+  // Get transaction details
+  async getTransactionDetails(referenceNumber) {
+    try {
+      const requestData = {
+        referenceNumber,
+        merchantAccount: this.credentials,
+      };
+
+      const hash = this.generateHash(requestData);
+
+      const response = await axios.post(
+        `${this.baseUrl}/merchant-rest/secured/getTransactionDetails`,
+        requestData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            principal: this.principal,
+            credentials: this.credentials,
+            hash: hash,
+          },
+        },
+      );
+
+      return {
+        success: true,
+        data: response.data,
       };
     } catch (error) {
       console.error(
-        "❌ Paga initialization error:",
+        "Paga get transaction error:",
         error.response?.data || error.message,
       );
       throw error;
@@ -67,40 +117,64 @@ class PagaService {
   }
 
   // Verify payment status
-  async verifyPayment(reference) {
+  async verifyPayment(referenceNumber) {
     try {
-      const endpoint = "/merchant-rest/secured/getMerchantTransactionDetails";
+      const result = await this.getTransactionDetails(referenceNumber);
 
+      return {
+        success: true,
+        isPaid:
+          result.data.status === "SUCCESS" ||
+          result.data.status === "SUCCESSFUL",
+        status: result.data.status,
+        amount: result.data.amount,
+        data: result.data,
+      };
+    } catch (error) {
+      console.error(
+        "Paga verification error:",
+        error.response?.data || error.message,
+      );
+      throw error;
+    }
+  }
+
+  // Alternative: Money Transfer (Direct Payment)
+  async makePayment({ amount, email, reference, phoneNumber }) {
+    try {
       const requestData = {
-        merchantReferenceNumber: reference,
+        referenceNumber: reference,
+        amount: parseFloat(amount),
+        currency: "NGN",
+        destinationAccount: phoneNumber,
+        transferReference: reference,
+        merchantAccount: this.credentials,
+        merchantCustomerReference: email,
+        merchantServiceProductCode: "DONATION",
       };
 
-      const hash = this.generateHash(endpoint, requestData);
+      const hash = this.generateHash(requestData);
 
       const response = await axios.post(
-        `${this.baseUrl}${endpoint}`,
+        `${this.baseUrl}/merchant-rest/secured/moneyTransfer`,
         requestData,
         {
           headers: {
             "Content-Type": "application/json",
-            principal: this.apiKey,
-            credentials: this.credential,
+            principal: this.principal,
+            credentials: this.credentials,
             hash: hash,
           },
         },
       );
 
-      console.log("✅ Payment verification:", response.data);
-
       return {
         success: true,
         data: response.data,
-        status: response.data.status,
-        isPaid: response.data.status === "SUCCESS",
       };
     } catch (error) {
       console.error(
-        "❌ Payment verification error:",
+        "Paga payment error:",
         error.response?.data || error.message,
       );
       throw error;

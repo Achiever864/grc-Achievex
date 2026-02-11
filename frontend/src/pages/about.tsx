@@ -58,6 +58,19 @@ export default function AboutPage(): React.ReactElement {
     }
   }, [activeSection]);
 
+  useEffect(() => {
+    const hash = window.location.hash;
+
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash.substring(1));
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 1200);
+    }
+  }, []);
+
   // Core Values
   const coreValues = [
     {
@@ -388,9 +401,9 @@ export default function AboutPage(): React.ReactElement {
               <div className="flex flex-wrap gap-2 justify-center">
                 {[
                   { id: "story", label: "Our Story" },
-                  { id: "vision", label: "Vision & Mission" },
+                  { id: "mission", label: "Vision & Mission" },
                   { id: "values", label: "Core Values" },
-                  { id: "board", label: "Board of Directors" },
+                  { id: "team", label: "Our Team" },
                   { id: "partners", label: "Partners" },
                   { id: "impact", label: "Our Impact" },
                 ].map((tab) => (
@@ -473,7 +486,7 @@ export default function AboutPage(): React.ReactElement {
             </section>
 
             {/* Vision & Mission */}
-            <section id="vision" className="mb-32 scroll-mt-32">
+            <section id="mission" className="mb-32 scroll-mt-32">
               <div className="grid lg:grid-cols-2 gap-8">
                 {/* Vision */}
                 <div className="bg-linear-to-br from-[#95111c] to-[#7a0e16] rounded-2xl shadow-2xl p-8 text-white h-full flex flex-col">
@@ -581,7 +594,7 @@ export default function AboutPage(): React.ReactElement {
             </section>
 
             {/* Board of Directors */}
-            <section id="board" className="mb-32 scroll-mt-32">
+            <section id="team" className="mb-32 scroll-mt-32">
               <div className="text-center mb-12">
                 <h2 className="text-4xl font-bold text-[#95111c] mb-4">
                   Board of Directors

@@ -1,4 +1,4 @@
-// backend/routes/donation.js
+// backend/routes/donations.js
 
 const express = require("express");
 const router = express.Router();
@@ -10,7 +10,7 @@ const sanitizeInput = (value) => {
 
   return value
     .trim()
-    .replace(/<[^>]*>/g, "") // Remove HTML tags
+    .replace(/<[^>]*>/g, "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -19,8 +19,8 @@ const sanitizeInput = (value) => {
     .replace(/\//g, "&#x2F;");
 };
 
-// Validation rules
-const validateDonation = [
+// Base validation rules
+const baseValidation = [
   body("amount")
     .notEmpty()
     .withMessage("Amount is required")
@@ -49,7 +49,7 @@ const validateDonation = [
     .normalizeEmail()
     .customSanitizer(sanitizeInput),
 
-  body("name")
+  body("donorName")
     .notEmpty()
     .withMessage("Name is required")
     .trim()
@@ -62,6 +62,25 @@ const validateDonation = [
     .customSanitizer(sanitizeInput),
 ];
 
+// Paga-specific validation
+const pagaValidation = [
+  ...baseValidation,
+  body("phoneNumber")
+    .notEmpty()
+    .withMessage("Phone number is required")
+    .matches(/^0[789][01]\d{8}$/)
+    .withMessage("Please provide a valid Nigerian phone number"),
+];
+
+// Bank transfer validation
+const bankTransferValidation = [
+  ...baseValidation,
+  body("reference")
+    .notEmpty()
+    .withMessage("Reference is required")
+    .customSanitizer(sanitizeInput),
+];
+
 // Check validation results middleware
 const checkValidation = (req, res, next) => {
   const errors = validationResult(req);
@@ -70,6 +89,7 @@ const checkValidation = (req, res, next) => {
     console.log("❌ Validation failed:", errors.array());
     return res.status(400).json({
       success: false,
+      message: errors.array()[0].msg,
       errors: errors.array().map((err) => ({
         field: err.path || err.param,
         message: err.msg,
@@ -85,51 +105,108 @@ const donations = new Map();
 
 // Generate unique reference
 const generateReference = () => {
-  return `DON-${Date.now().toString().slice(-8)}`;
+  return `GRC-DON-${Date.now().toString().slice(-8)}`;
 };
 
-// Create Paga payment
+// ============================================
+// PAGA PAYMENT
+// ============================================
 router.post(
-  "/create-paga-payment",
-  validateDonation,
+  "/initialize-paga",
+  pagaValidation,
   checkValidation,
   async (req, res) => {
     try {
-      const { amount, email, name } = req.body;
+      const { amount, email, phoneNumber, donorName } = req.body;
       const reference = generateReference();
 
-      // Store donation details temporarily
       donations.set(reference, {
         amount,
         email,
-        name,
+        phoneNumber,
+        donorName,
+        paymentMethod: "paga",
         status: "pending",
         createdAt: new Date(),
         expectedAmount: amount,
       });
 
-      console.log("✅ Payment created:", { reference, amount, email, name });
+      console.log("✅ Paga payment initialized:", {
+        reference,
+        amount,
+        email,
+        phoneNumber,
+        donorName,
+      });
 
-      // Simulated Paga response
       res.json({
         success: true,
+        message: "Payment initialized successfully",
         data: {
-          authorization_url: `https://www.mypaga.com/merchant-payment?reference=${reference}`,
           reference: reference,
-          access_code: `ACCESS_${reference}`,
+          // paymentUrl: 'https://paga.com/...' // Add when Paga API is integrated
         },
       });
     } catch (error) {
-      console.error("❌ Payment creation error:", error);
+      console.error("❌ Paga initialization error:", error);
       res.status(500).json({
         success: false,
-        message: "Failed to create payment. Please try again.",
+        message: "Failed to initialize payment. Please try again.",
       });
     }
   },
 );
 
-// Verify payment (callback from Paga)
+// ============================================
+// BANK TRANSFER
+// ============================================
+router.post(
+  "/bank-transfer",
+  bankTransferValidation,
+  checkValidation,
+  async (req, res) => {
+    try {
+      const { amount, email, donorName, reference } = req.body;
+
+      donations.set(reference, {
+        amount,
+        email,
+        donorName,
+        paymentMethod: "bank_transfer",
+        status: "pending",
+        createdAt: new Date(),
+        expectedAmount: amount,
+      });
+
+      console.log("✅ Bank transfer recorded:", {
+        reference,
+        amount,
+        email,
+        donorName,
+      });
+
+      res.json({
+        success: true,
+        message:
+          "Bank transfer recorded successfully. We will verify your payment shortly.",
+        data: {
+          reference,
+          status: "pending",
+        },
+      });
+    } catch (error) {
+      console.error("❌ Bank transfer error:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to record transfer. Please try again.",
+      });
+    }
+  },
+);
+
+// ============================================
+// VERIFICATION
+// ============================================
 router.post("/verify-payment/:reference", async (req, res) => {
   try {
     const { reference } = req.params;
@@ -142,7 +219,6 @@ router.post("/verify-payment/:reference", async (req, res) => {
       });
     }
 
-    // In production, verify with Paga API
     const { amount: paidAmount } = req.body;
 
     if (paidAmount && paidAmount !== donation.expectedAmount) {
@@ -157,7 +233,6 @@ router.post("/verify-payment/:reference", async (req, res) => {
       });
     }
 
-    // Update donation status
     donation.status = "completed";
     donation.verifiedAt = new Date();
     donations.set(reference, donation);
@@ -182,6 +257,10 @@ router.post("/verify-payment/:reference", async (req, res) => {
   }
 });
 
+// ============================================
+// GET ROUTES
+// ============================================
+
 // Get donation by reference
 router.get("/donation/:reference", async (req, res) => {
   try {
@@ -195,13 +274,13 @@ router.get("/donation/:reference", async (req, res) => {
       });
     }
 
-    // Don't expose sensitive data
     res.json({
       success: true,
       data: {
         reference,
         amount: donation.amount,
         status: donation.status,
+        paymentMethod: donation.paymentMethod,
         createdAt: donation.createdAt,
       },
     });
@@ -214,12 +293,15 @@ router.get("/donation/:reference", async (req, res) => {
   }
 });
 
-// Get all donations (for admin/testing)
-router.get("/donations-list", async (req, res) => {
+// Get all donations (admin/testing)
+router.get("/list", async (req, res) => {
   try {
     const allDonations = Array.from(donations.entries()).map(([ref, data]) => ({
       reference: ref,
       amount: data.amount,
+      donorName: data.donorName,
+      email: data.email,
+      paymentMethod: data.paymentMethod,
       status: data.status,
       createdAt: data.createdAt,
     }));
@@ -227,6 +309,7 @@ router.get("/donations-list", async (req, res) => {
     res.json({
       success: true,
       count: allDonations.length,
+      total: allDonations.reduce((sum, d) => sum + d.amount, 0),
       data: allDonations,
     });
   } catch (error) {

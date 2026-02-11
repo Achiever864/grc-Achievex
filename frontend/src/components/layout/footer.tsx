@@ -1,20 +1,86 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import React, { useState } from "react";
 import logo from "@/assets/logo/logo.png";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  ArrowRight,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import {
   FaYoutube,
   FaInstagram,
   FaLinkedin,
   FaFacebookF,
 } from "react-icons/fa";
+import { API_ENDPOINTS } from "@/config/api";
 
 export default function Footer() {
+  const [location, setLocation] = useLocation();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !email.includes("@")) {
+      setStatus("error");
+      setMessage("Please enter a valid email address");
+      setTimeout(() => setStatus("idle"), 3000);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setStatus("idle");
+
+    try {
+      const response = await fetch(API_ENDPOINTS.NEWSLETTER_SUBSCRIBE, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          firstName: "", // Quick signup - they can add details later
+          lastName: "",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus("success");
+        setMessage("Successfully subscribed! Check your email.");
+        setEmail("");
+        setTimeout(() => setStatus("idle"), 5000);
+      } else {
+        setStatus("error");
+        setMessage(data.message || "Subscription failed. Please try again.");
+        setTimeout(() => setStatus("idle"), 5000);
+      }
+    } catch (error) {
+      console.error("Newsletter subscription error:", error);
+      setStatus("error");
+      setMessage("Network error. Please try again.");
+      setTimeout(() => setStatus("idle"), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFullSignup = () => {
+    setLocation("/newsletter");
+  };
+
   const footerLinks = {
     about: [
       { label: "About Us", href: "/about" },
-      { label: "Our Mission", href: "/mission" },
-      { label: "Our Team", href: "/team" },
-      { label: "Annual Reports", href: "/reports" },
+      { label: "Our Mission", href: "/about#mission" },
+      { label: "Our Team", href: "/about#team" },
     ],
     programs: [
       { label: "Capacity Building", href: "/programs/capacity" },
@@ -58,6 +124,19 @@ export default function Footer() {
     },
   ];
 
+  const handleLinkClick = (href: string, e: React.MouseEvent) => {
+    if (href.includes("#")) {
+      const [path, hash] = href.split("#");
+
+      if (location === path || path === location) {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    }
+  };
   return (
     <footer className="bg-linear-to-br from-[#95111c] via-[#8f2029] to-[#7a0e16] text-white">
       {/* Main Footer Content */}
@@ -132,6 +211,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
+                    onClick={(e) => handleLinkClick(link.href, e)}
                     className="text-sm text-white/90 hover:text-yellow-400 hover:pl-2 transition-all inline-flex items-center gap-1 group"
                   >
                     <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -188,17 +268,59 @@ export default function Footer() {
             <p className="text-sm text-white/90 mb-4">
               Subscribe to our newsletter for latest updates
             </p>
-            <div className="space-y-3">
+
+            {/* Success/Error Messages */}
+            {status === "success" && (
+              <div className="mb-3 p-3 bg-green-500/20 border border-green-500/50 rounded-lg flex items-start gap-2">
+                <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
+                <p className="text-sm text-green-100">{message}</p>
+              </div>
+            )}
+
+            {status === "error" && (
+              <div className="mb-3 p-3 bg-red-500/20 border border-red-500/50 rounded-lg flex items-start gap-2">
+                <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                <p className="text-sm text-red-100">{message}</p>
+              </div>
+            )}
+
+            {/* Newsletter Form */}
+            <form onSubmit={handleNewsletterSubmit} className="space-y-3">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email"
-                className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:bg-white/20 focus:border-yellow-400 focus:outline-none transition-all"
+                required
+                disabled={isSubmitting}
+                className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:bg-white/20 focus:border-yellow-400 focus:outline-none transition-all disabled:opacity-50"
               />
-              <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-2.5 rounded-lg transition-all hover:shadow-lg cursor-pointer flex items-center justify-center gap-2">
-                Subscribe
-                <ArrowRight className="w-4 h-4" />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-2.5 rounded-lg transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
+                    Subscribing...
+                  </>
+                ) : (
+                  <>
+                    Subscribe
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
-            </div>
+            </form>
+
+            {/* Link to full signup */}
+            <button
+              onClick={handleFullSignup}
+              className="mt-3 text-xs text-white/70 hover:text-yellow-400 transition-colors underline"
+            >
+              Want to customize your preferences? Click here
+            </button>
           </div>
         </div>
       </div>

@@ -69,7 +69,7 @@ async function testXSS() {
   const xssPayload = '<script>alert("XSS")</script>';
 
   try {
-    const response = await makeRequest("/api/create-paga-payment", "POST", {
+    const response = await makeRequest("/api/ment", "POST", {
       amount: 1000,
       email: "test@test.com",
       name: xssPayload,
@@ -105,7 +105,7 @@ async function testValidation() {
 
   try {
     // Test invalid amount (negative)
-    const response = await makeRequest("/api/create-paga-payment", "POST", {
+    const response = await makeRequest("/api/initialize-paga", "POST", {
       amount: -1000,
       email: "test@test.com",
       name: "Test User",
@@ -143,7 +143,7 @@ async function testRateLimiting() {
     // Send 15 requests rapidly
     for (let i = 0; i < 15; i++) {
       requests.push(
-        makeRequest("/api/create-paga-payment", "POST", {
+        makeRequest("/api/initialize-paga", "POST", {
           amount: 1000,
           email: "test@test.com",
           name: "Test User",
@@ -222,7 +222,7 @@ async function testEmailValidation() {
   console.log("🧪 Testing Email Validation...");
 
   try {
-    const response = await makeRequest("/api/create-paga-payment", "POST", {
+    const response = await makeRequest("/api/initialize-paga", "POST", {
       amount: 1000,
       email: "notanemail",
       name: "Test User",

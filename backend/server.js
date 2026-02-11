@@ -80,9 +80,15 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-// Import and use routes
-const donationRoutes = require("./routes/donations");
-app.use("/api", donationRoutes);
+// Serve sitemap.xml
+app.get("/sitemap.xml", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "sitemap.xml"));
+});
+
+// Serve robots.txt
+app.get("/robots.txt", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "robots.txt"));
+});
 
 app.use("/api/newsletter", require("./routes/newsletter"));
 app.use("/api/donations", require("./routes/donations"));
@@ -99,7 +105,7 @@ app.use((req, res) => {
     availableRoutes: [
       "GET /health",
       "GET /api/health",
-      "POST /api/create-paga-payment",
+      "POST /api/initialize-paga",
       "POST /api/newsletter",
       "GET /api/donations",
     ],

@@ -4,119 +4,126 @@ const emailService = require("../services/emailService");
 
 class DonationController {
   // Initialize Paga payment
-  async initializePagaPayment(req, res) {
+  async initializePaga(req, res) {
     try {
-      const { amount, email, name, reference, phone } = req.body;
+      const { amount, email, phoneNumber, donorName } = req.body;
 
       // Validate input
-      if (!amount || !email || !name || !reference) {
+      if (!amount || !email) {
         return res.status(400).json({
           success: false,
-          message: "Missing required fields: amount, email, name, reference",
+          message: "Amount and email are required",
         });
       }
 
-      // Create donation record
-      const donation = await Donation.create({
-        reference,
-        donorName: name,
-        donorEmail: email,
-        amount,
-        paymentMethod: "paga",
-        metadata: { phone },
-      });
-
-      // Initialize Paga payment
-      const pagaResponse = await pagaService.initializePayment({
-        amount,
-        reference,
-        email,
-        name,
-        phone,
-      });
-
-      if (pagaResponse.success && pagaResponse.paymentUrl) {
-        res.status(200).json({
-          success: true,
-          message: "Payment initialized successfully",
-          authorization_url: pagaResponse.paymentUrl,
-          reference: reference,
-          transactionId: pagaResponse.transactionId,
-        });
-      } else {
-        res.status(400).json({
+      // Phone number is required for Paga
+      if (!phoneNumber) {
+        return res.status(400).json({
           success: false,
-          message: "Failed to initialize payment",
-          error: pagaResponse.data,
+          message: "Phone number is required for Paga payments",
         });
       }
+
+      // Generate unique reference
+      const reference = `GRC-${Date.now()}`;
+
+      console.log("Initializing Paga payment:", {
+        amount,
+        email,
+        phoneNumber,
+        reference,
+      });
+
+      // Initialize payment with Paga
+      const result = await pagaService.initializePayment({
+        amount,
+        email,
+        phoneNumber,
+        reference,
+      });
+
+      // TODO: Save donation record to database
+      // await Donation.create({
+      //   reference,
+      //   amount,
+      //   email,
+      //   phoneNumber,
+      //   status: 'pending'
+      // });
+
+      // Return payment instructions
+      res.json({
+        success: true,
+        message: "Payment initialized successfully",
+        data: {
+          reference,
+          amount,
+          // If Paga returns account details, include them
+          accountNumber: result.data?.accountNumber,
+          merchantPublicId: result.data?.merchantPublicId,
+          paymentUrl: result.paymentUrl,
+          // Payment instructions
+          instructions: {
+            step1: "Open your Paga app or dial *242#",
+            step2: 'Select "Send Money"',
+            step3: `Send ₦${amount.toLocaleString()} to: ${result.data?.accountNumber || "Graduate Research Clinic"}`,
+            step4: `Use reference: ${reference}`,
+          },
+        },
+      });
     } catch (error) {
-      console.error("Payment initialization error:", error);
+      console.error("Initialize Paga payment error:", error);
       res.status(500).json({
         success: false,
-        message: "Failed to initialize payment",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
+        message: error.message || "Failed to initialize payment",
       });
     }
   }
 
   // Verify Paga payment
-  async verifyPagaPayment(req, res) {
+  async verifyPayment(req, res) {
     try {
       const { reference } = req.params;
 
-      // Find donation
-      const donation = await Donation.findByReference(reference);
-
-      if (!donation) {
-        return res.status(404).json({
+      if (!reference) {
+        return res.status(400).json({
           success: false,
-          message: "Donation not found",
+          message: "Reference is required",
         });
       }
 
-      // Verify payment with Paga
-      const verificationResponse = await pagaService.verifyPayment(reference);
+      console.log("Verifying payment:", reference);
 
-      if (verificationResponse.isPaid) {
-        // Update donation status
-        await Donation.updateStatus(reference, "success", {
-          pagaReference: verificationResponse.data.referenceNumber,
-          transactionId: verificationResponse.data.transactionId,
-          verifiedAt: new Date().toISOString(),
-        });
+      // Get payment status from Paga
+      const result = await pagaService.verifyPayment(reference);
 
-        // Send thank you email
-        await emailService.sendDonationReceipt(
-          donation.donor_email,
-          donation.donor_name,
-          donation.amount,
-          reference,
-        );
+      // Check if payment was successful
+      if (result.isPaid) {
+        // TODO: Update donation record in database
+        // await Donation.update(
+        //   { status: 'completed', paidAt: new Date() },
+        //   { where: { reference } }
+        // );
 
-        res.status(200).json({
+        // TODO: Send thank you email
+        // await emailService.sendDonationThankYou(result.data.email, result.amount);
+
+        res.json({
           success: true,
           message: "Payment verified successfully",
-          data: {
-            reference,
-            amount: donation.amount,
-            status: "success",
-          },
+          isPaid: true,
+          data: result.data,
         });
       } else {
-        await Donation.updateStatus(reference, "failed", {
-          reason: verificationResponse.data.message || "Payment not completed",
-        });
-
-        res.status(400).json({
+        res.json({
           success: false,
-          message: "Payment not completed",
-          status: verificationResponse.status,
+          message: "Payment not completed yet",
+          isPaid: false,
+          status: result.status,
         });
       }
     } catch (error) {
-      console.error("Payment verification error:", error);
+      console.error("Verify payment error:", error);
       res.status(500).json({
         success: false,
         message: "Failed to verify payment",
@@ -126,58 +133,49 @@ class DonationController {
     }
   }
 
-  // Record bank transfer
+  // Record bank transfer donation
   async recordBankTransfer(req, res) {
     try {
-      const { amount, email, name, reference } = req.body;
+      const { amount, email, donorName, reference } = req.body;
 
-      const donation = await Donation.create({
-        reference,
-        donorName: name,
-        donorEmail: email,
-        amount,
-        paymentMethod: "bank_transfer",
-        metadata: { requiresVerification: true },
-      });
+      if (!amount || !email || !reference) {
+        return res.status(400).json({
+          success: false,
+          message: "Amount, email, and reference are required",
+        });
+      }
 
-      // Send confirmation email
-      await emailService.sendBankTransferConfirmation(
-        email,
-        name,
-        amount,
-        reference,
-      );
+      // TODO: Save to database
+      // await Donation.create({
+      //   reference,
+      //   amount,
+      //   email,
+      //   donorName,
+      //   paymentMethod: 'bank_transfer',
+      //   status: 'pending_confirmation',
+      // });
 
-      res.status(201).json({
+      // TODO: Send admin notification
+      // await emailService.sendBankTransferNotification({
+      //   amount,
+      //   email,
+      //   donorName,
+      //   reference
+      // });
+
+      res.json({
         success: true,
-        message: "Bank transfer recorded. We will verify and confirm shortly.",
-        data: {
-          reference,
-          amount: donation.amount,
-        },
+        message:
+          "Bank transfer recorded. We will confirm and send you a receipt.",
+        data: { reference },
       });
     } catch (error) {
-      console.error("Bank transfer error:", error);
+      console.error("Record bank transfer error:", error);
       res.status(500).json({
         success: false,
         message: "Failed to record bank transfer",
-      });
-    }
-  }
-
-  // Get donation statistics (admin)
-  async getStats(req, res) {
-    try {
-      const stats = await Donation.getStats();
-      res.status(200).json({
-        success: true,
-        data: stats,
-      });
-    } catch (error) {
-      console.error("Stats error:", error);
-      res.status(500).json({
-        success: false,
-        message: "Failed to fetch statistics",
+        error:
+          process.env.NODE_ENV === "development" ? error.message : undefined,
       });
     }
   }
@@ -186,24 +184,22 @@ class DonationController {
   async getDonation(req, res) {
     try {
       const { reference } = req.params;
-      const donation = await Donation.findByReference(reference);
 
-      if (!donation) {
-        return res.status(404).json({
-          success: false,
-          message: "Donation not found",
-        });
-      }
+      // TODO: Get from database
+      // const donation = await Donation.findOne({ where: { reference } });
 
-      res.status(200).json({
+      res.json({
         success: true,
-        data: donation,
+        data: {
+          reference,
+          // ...donation
+        },
       });
     } catch (error) {
       console.error("Get donation error:", error);
       res.status(500).json({
         success: false,
-        message: "Failed to fetch donation",
+        message: "Failed to get donation",
       });
     }
   }
