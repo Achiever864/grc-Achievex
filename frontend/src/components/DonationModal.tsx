@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { API_ENDPOINTS } from "@/config/api";
 import { TbCurrencyNaira } from "react-icons/tb";
+import { trackButtonClick, trackDonation } from "@/utils/analytics";
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -192,6 +193,7 @@ export const DonationModal = ({
 
       if (data.success) {
         setPagaData(data.data);
+        trackDonation(getCurrentAmount(), "paga");
 
         // If there's a payment URL, you can either redirect or show instructions
         // For now, we'll show instructions
@@ -616,10 +618,16 @@ export const DonationModal = ({
                 <button
                   onClick={() => {
                     if (paymentMethod === "paga") {
+                      trackButtonClick("Donate Now");
+
                       handlePagaPayment();
                     } else if (paymentMethod === "paypal") {
+                      trackButtonClick("Donate Now");
+
                       handlePayPalPayment();
                     } else if (paymentMethod === "bank") {
+                      trackButtonClick("Donate Now");
+
                       handleBankTransferConfirm();
                     }
                   }}

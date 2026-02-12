@@ -1,4 +1,4 @@
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import Home from "./pages/Home";
 import ToolBox from "./pages/tool-box";
 import Hub from "./pages/hub";
@@ -9,6 +9,8 @@ import FindSupport from "./pages/find-support";
 import AboutPage from "./pages/about";
 import Newsletter from "./components/ui/newsletter";
 import ScrollToTop from "./components/ScrollToTop";
+import { initGA, trackPageView } from "./utils/analytics";
+import { useEffect } from "react";
 
 function Router() {
   return (
@@ -28,6 +30,18 @@ function Router() {
 }
 
 export default function App() {
+  const [location] = useLocation();
+
+  // Initialize GA on app mount
+  useEffect(() => {
+    initGA();
+  }, []);
+
+  // Track page views on route change
+  useEffect(() => {
+    trackPageView(location);
+  }, [location]);
+
   return (
     <>
       <ScrollToTop />
