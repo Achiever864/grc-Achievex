@@ -379,6 +379,15 @@ export default function Voices() {
 
   const liveStreams = [
     {
+      title: "Quantum Redirections and 'The Field' in Global Social Science",
+      host: "Professor Oka Obono",
+      time: "10:00am",
+      participants: "250+ avg",
+      status: "upcoming",
+      nextDate: "Wednesday, 19th August, 2026"
+
+    },
+    {
       title: "Monthly Researcher Roundtable",
       host: "ScholarLink Africa",
       time: "Every Last Friday, 3 PM WAT",
